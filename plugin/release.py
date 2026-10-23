@@ -2,9 +2,9 @@
 """Publishes a release: builds Aurora-Theme.plg, commits and tags it, creates the GitHub release
 with the .plg attached, and puts the same .plg on the "release" branch.
 
-Unraid's Plugins page checks for updates against the .plg on the "release" branch (PLUGIN_URL
-in build.py), so that branch must only ever hold a released .plg; development builds on main
-are never offered as updates. Automatic updates and the settings page ask the GitHub releases.
+Unraid's Plugins page, automatic updates and the settings page all check for updates against
+the .plg on the "release" branch (PLUGIN_URL in build.py), so that branch must only ever hold a
+released .plg; development builds on main are never offered as updates.
 
 Run from a clean working tree, with the release's CHANGES line already in build.py:
     python3 plugin/release.py notes.md     (notes.md: the GitHub release text, Markdown)
@@ -42,9 +42,14 @@ trailer = os.environ.get("AURORA_COMMIT_TRAILER", "")
 git("commit", "-m", f"Release {version}" + (f"\n\n{trailer}" if trailer else ""))
 git("push", "origin", "main")
 
+# A GitHub release is a courtesy for people reading the repository; updates only need the
+# "release" branch below, so a missing or signed-out gh does not stop the release.
 tag = f"v{version}"
-subprocess.run(["gh", "release", "create", tag, PLG, "--target", "main",
-                "--title", f"Aurora Theme {version}", "--notes-file", str(notes)], cwd=root, check=True)
+try:
+    subprocess.run(["gh", "release", "create", tag, PLG, "--target", "main",
+                    "--title", f"Aurora Theme (Fluent edition) {version}", "--notes-file", str(notes)], cwd=root, check=True)
+except (OSError, subprocess.CalledProcessError) as error:
+    print(f"No GitHub release created ({error}); the release branch still serves the update.")
 
 # The "release" branch: one commit per release, holding only the released .plg. Built with git
 # plumbing, so the working tree and main stay as they are.
