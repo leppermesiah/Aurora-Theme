@@ -1,0 +1,1494 @@
+/*
+ * Fluent layer for the Aurora Theme (Fluent edition).
+ * Loaded after theme.css, enhance.css and the sidebar layout, it turns the Aurora look into
+ * Microsoft's Fluent 2 / Windows 11 language: a Mica window background, content on a soft
+ * layer with a rounded corner, acrylic flyouts and dialogs, 4px controls with a bottom stroke,
+ * Fluent toggles, a selection pill in the navigation, and decelerating motion everywhere.
+ * Colours come from the tokens in theme.css (--tp-*, --fl-*).
+ *
+ *   html.fl-motion-off        "Animations: Off" on the settings page (or the OS asks for less)
+ *   html.fl-transparency-off  "Transparency effects: Off": solid surfaces, no blur
+ */
+
+/* Page-to-page transitions (Chromium 126+, Safari 18.2+): the menu and the top bar stay put,
+   the selection pill slides to the new tab and the page content rises into place. Browsers
+   without cross-document view transitions simply load the next page as before. */
+@view-transition {
+    navigation: auto;
+}
+
+:root:is(.Theme--black, .Theme--white) {
+    /* ======================================================================
+       Mica: the window background. A neutral base with a faint accent wash
+       and a touch of grain, fixed behind everything.
+       ====================================================================== */
+    background-color: var(--fl-mica);
+    background-image:
+        radial-gradient(70rem 50rem at 0% 0%, var(--fl-mica-tint), transparent 70%),
+        radial-gradient(60rem 40rem at 100% 0%, color-mix(in srgb, var(--tp-primary-ii) 5%, transparent), transparent 70%),
+        radial-gradient(80rem 60rem at 60% 110%, color-mix(in srgb, var(--tp-primary) 4%, transparent), transparent 70%);
+    background-attachment: fixed;
+    scrollbar-color: color-mix(in srgb, var(--tp-muted) 55%, transparent) transparent;
+    scrollbar-width: thin;
+
+    body {
+        background: transparent;
+        font-family: var(--tp-font-body);
+        font-feature-settings: "ss01", "cv11";
+        -webkit-font-smoothing: antialiased;
+    }
+
+    body::before {
+        position: fixed;
+        z-index: -1;
+        inset: 0;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .5 0 0 0 0 .5 0 0 0 0 .5 0 0 0 1 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+        opacity: var(--fl-noise-opacity);
+        pointer-events: none;
+        content: "";
+    }
+
+    ::selection {
+        color: var(--tp-primary-text);
+        background-color: var(--tp-primary);
+    }
+
+    /* ======================================================================
+       Focus: Fluent's two-tone ring, only for keyboard users.
+       ====================================================================== */
+    :focus-visible {
+        outline: 2px solid var(--fl-focus-outer);
+        outline-offset: 2px;
+        box-shadow: 0 0 0 1px var(--fl-focus-inner);
+    }
+
+    input:focus-visible,
+    textarea:focus-visible,
+    select:focus-visible {
+        outline: 0;
+        box-shadow: none;
+    }
+
+    /* ======================================================================
+       Typography: Fluent type ramp (Caption 12, Body 14, Subtitle 20, Title 28).
+       ====================================================================== */
+    h1, h2, h3, h4,
+    .tp-heading h1 {
+        font-family: var(--tp-font-heading);
+        letter-spacing: 0;
+    }
+
+    .tp-heading h1 {
+        font-size: 2.8rem;
+        font-weight: 600;
+        line-height: 3.6rem;
+    }
+
+    /* The eyebrow over the page title becomes a quiet caption, or a breadcrumb on sub-pages
+       (fluent.js links it back to the parent tab). */
+    .tp-heading .tp-eyebrow {
+        color: var(--tp-muted);
+        font: 400 1.3rem/1.6rem var(--tp-font-body);
+        letter-spacing: 0;
+        text-transform: none;
+    }
+
+    .tp-heading .tp-subtitle {
+        color: var(--tp-muted);
+        font-size: 1.4rem;
+    }
+
+    .fl-crumb {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: baseline;
+        gap: 0 1.2rem;
+        margin: 0;
+    }
+
+    .fl-crumb a {
+        color: var(--tp-muted);
+        text-decoration: none;
+        transition: color var(--fl-dur-fast) var(--tp-ease);
+    }
+
+    .fl-crumb a:hover {
+        color: var(--tp-text);
+    }
+
+    .fl-crumb .fl-crumb-sep {
+        color: var(--tp-muted);
+        font-size: 0.7em;
+        transform: translateY(-0.1em);
+    }
+
+    /* Section titles: Fluent "BodyStrong" group headers, no rules under them. */
+    div.title {
+        padding: 1.6rem 0.2rem 0.8rem;
+        border-bottom: 0;
+        font: 600 1.4rem/2rem var(--tp-font-body);
+        letter-spacing: 0;
+    }
+
+    div.title i.title,
+    div.title i.fa,
+    div.title i.icon {
+        color: var(--tp-muted);
+    }
+
+    /* ======================================================================
+       Surfaces: cards, tables, dashboard tiles and panels sit on the layer
+       with a hairline stroke and Fluent's soft card shadow.
+       ====================================================================== */
+    table.dashboard > tbody,
+    .TableContainer,
+    .TableContainer--no-min-width,
+    .tp-summary {
+        border: 1px solid var(--fl-stroke-card);
+        border-radius: var(--tp-r-md);
+        background-color: var(--fl-card);
+        box-shadow: var(--fl-shadow-card);
+        -webkit-backdrop-filter: blur(0);
+        transition: background-color var(--fl-dur-fast) var(--tp-ease), border-color var(--fl-dur-fast) var(--tp-ease);
+    }
+
+    table.dashboard .tile-header-left > i.f32 {
+        border: 0;
+        border-radius: var(--tp-r-md);
+    }
+
+    /* ---- Panels (Settings, Tools): Windows 11 settings cards. A row with the icon, the
+       name, a one-line description (fluent.js) and a chevron; the whole card is the link. */
+    .Panels {
+        grid-template-columns: repeat(auto-fill, minmax(30rem, 1fr));
+        gap: 0.4rem 0.8rem;
+        margin-top: 0.4rem;
+    }
+
+    .Panel > a {
+        display: grid;
+        grid-template-columns: auto minmax(0, 1fr) auto;
+        align-items: center;
+        justify-content: stretch;
+        gap: 0 1.6rem;
+        min-height: 6.8rem;
+        padding: 1.2rem 1.6rem;
+        border: 1px solid var(--fl-stroke-card);
+        border-radius: var(--tp-r-md);
+        text-align: left;
+        background-color: var(--fl-card);
+        box-shadow: none;
+        transition: background-color var(--fl-dur-fast) var(--tp-ease), border-color var(--fl-dur-fast) var(--tp-ease);
+    }
+
+    .Panel > a::after {
+        grid-column: 3;
+        grid-row: 1 / span 2;
+        color: var(--tp-muted);
+        font: normal 1.2rem/1 FontAwesome;
+        content: "\f054";
+        transition: transform var(--fl-dur-normal) var(--fl-ease-decel);
+    }
+
+    .Panel > a:hover,
+    .Panel > a:focus-visible {
+        border-color: var(--fl-stroke-card);
+        background-color: var(--fl-card-hover);
+        box-shadow: none;
+        transform: none;
+    }
+
+    .Panel > a:hover::after {
+        transform: translateX(3px);
+    }
+
+    .Panel > a:active {
+        background-color: var(--fl-control-pressed);
+    }
+
+    .Panel > a:active .PanelText,
+    .Panel > a:active .fl-panel-desc {
+        opacity: 0.786;
+    }
+
+    .Panel > a > span:first-child {
+        grid-row: 1 / span 2;
+        width: 3.2rem;
+        height: 3.2rem;
+        border-radius: 0;
+        color: var(--tp-primary);
+        background: transparent;
+    }
+
+    .Panel > a:hover > span:first-child,
+    .Panel > a:focus-visible > span:first-child {
+        color: var(--tp-primary);
+        background: transparent;
+    }
+
+    .Panel .PanelIcon {
+        font-size: 2.2rem;
+    }
+
+    .Panel .PanelImg {
+        max-width: 2.6rem;
+        height: 2.6rem;
+    }
+
+    .Panel .PanelText {
+        align-self: end;
+        font: 400 1.4rem/2rem var(--tp-font-body);
+    }
+
+    .Panel > a:not(:has(.fl-panel-desc)) .PanelText {
+        grid-row: 1 / span 2;
+        align-self: center;
+    }
+
+    .Panel .fl-panel-desc {
+        grid-column: 2;
+        align-self: start;
+        overflow: hidden;
+        color: var(--tp-muted);
+        font: 400 1.2rem/1.6rem var(--tp-font-body);
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+
+    .Panel button.tp-fav-toggle {
+        top: 50%;
+        right: 4rem;
+        border-radius: var(--tp-r-control);
+        transform: translateY(-50%);
+    }
+
+    /* ---- Settings forms (Settings and Tools sub-pages, marked by fluent.js): every group of
+       settings becomes a card of rows, the name on the left and its control on the right,
+       a hairline between rows, like the Windows 11 Settings app. */
+    &.fl-form-cards #displaybox form dl:has(> dt) {
+        display: grid;
+        grid-template-columns: minmax(18rem, 1fr) minmax(0, auto);
+        align-items: stretch;
+        gap: 0;
+        max-width: 110rem;
+        margin: 0.4rem 0;
+        padding: 0;
+        overflow: hidden;
+        border: 1px solid var(--fl-stroke-card);
+        border-radius: var(--tp-r-md);
+        background-color: var(--fl-card);
+    }
+
+    &.fl-form-cards #displaybox form dl:has(> dt) > dt {
+        grid-column: 1;
+        display: flex;
+        align-items: center;
+        float: none;
+        width: auto;
+        min-height: 2rem;
+        margin: 0;
+        padding: 1.4rem 1.6rem;
+        color: var(--tp-text);
+        font: 400 1.4rem/2rem var(--tp-font-body);
+        text-align: left;
+    }
+
+    &.fl-form-cards #displaybox form dl:has(> dt) > dd {
+        grid-column: 2;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 0.6rem 0.8rem;
+        min-width: 0;
+        margin: 0;
+        padding: 1rem 1.6rem;
+        text-align: right;
+    }
+
+    /* A row without a name (the Apply / Done buttons) spans the card, buttons on the right;
+       a group of nothing but such rows is the form's button bar, without a card. */
+    &.fl-form-cards #displaybox form dl:has(> dt) > dt.fl-blank {
+        display: none;
+    }
+
+    &.fl-form-cards #displaybox form dl:has(> dt) > dt.fl-blank + dd {
+        grid-column: 1 / -1;
+        justify-content: flex-end;
+        border-top: 0;
+    }
+
+    &.fl-form-cards #displaybox form dl.fl-actions {
+        border-color: transparent;
+        background: transparent;
+    }
+
+    &.fl-form-cards #displaybox form dl.fl-actions > dd > span {
+        display: inline-flex;
+        width: auto;
+        margin: 0;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+        gap: 0.8rem;
+    }
+
+    &.fl-form-cards #displaybox form dl:has(> dt) > dt ~ dt,
+    &.fl-form-cards #displaybox form dl:has(> dt) > dt ~ dt + dd {
+        border-top: 1px solid var(--fl-stroke);
+    }
+
+    /* Controls keep a settings-app width instead of stretching across the card. */
+    &.fl-form-cards #displaybox form dl:has(> dt) > dd > :is(select, input[type="text"], input[type="password"], input[type="number"], input[type="email"], input:not([type])) {
+        width: 30rem;
+        min-width: 0;
+        max-width: 100%;
+        margin: 0;
+    }
+
+    &.fl-form-cards #displaybox form dl:has(> dt) > dd > textarea {
+        width: min(48rem, 100%);
+        text-align: left;
+    }
+
+    /* The help text under a group (Unraid's inline help) reads as the card's footnote. */
+    &.fl-form-cards #displaybox form blockquote.inline_help {
+        max-width: 110rem;
+        box-sizing: border-box;
+    }
+
+    @media (max-width: 767px) {
+        &.fl-form-cards #displaybox form dl:has(> dt) {
+            grid-template-columns: minmax(0, 1fr);
+        }
+
+        &.fl-form-cards #displaybox form dl:has(> dt) > :is(dt, dd) {
+            grid-column: 1;
+        }
+
+        &.fl-form-cards #displaybox form dl:has(> dt) > dt {
+            padding-bottom: 0.2rem;
+        }
+
+        &.fl-form-cards #displaybox form dl:has(> dt) > dt ~ dt + dd {
+            border-top: 0;
+        }
+
+        &.fl-form-cards #displaybox form dl:has(> dt) > dd {
+            justify-content: flex-start;
+            text-align: left;
+        }
+
+        &.fl-form-cards #displaybox form dl:has(> dt) > dd > :is(select, input[type="text"], input[type="password"], input[type="number"], input[type="email"], input:not([type])) {
+            width: 100%;
+        }
+
+        .tp-heading h1 {
+            font-size: 2.4rem;
+            line-height: 3.2rem;
+        }
+
+        .fl-palette-foot {
+            display: none;
+        }
+    }
+
+    /* ======================================================================
+       Buttons: Fluent standard and accent buttons.
+       ====================================================================== */
+    input[type="button"]:where(:not(.unapi *)),
+    input[type="reset"]:where(:not(.unapi *)),
+    input[type="submit"]:where(:not(.unapi *)),
+    button:where(:not(.unapi *, [role="tab"], .ui-button, .swal-button, .switch-button-button, .fl-bare)),
+    a.button:where(:not(.unapi *)) {
+        min-height: 3.2rem;
+        padding: 0.5rem 1.2rem 0.6rem;
+        border: 1px solid var(--fl-stroke-control);
+        border-bottom-color: var(--fl-stroke-control-bottom);
+        border-radius: var(--tp-r-control);
+        color: var(--tp-text);
+        background: var(--fl-control);
+        font: 400 1.4rem/2rem var(--tp-font-body);
+        box-shadow: none;
+        transition: background-color var(--fl-dur-fast) var(--tp-ease), color var(--fl-dur-fast) var(--tp-ease),
+            border-color var(--fl-dur-fast) var(--tp-ease), transform var(--fl-dur-fast) var(--tp-ease);
+    }
+
+    input:hover[type="button"]:where(:not(.unapi *, [disabled])),
+    input:hover[type="reset"]:where(:not(.unapi *, [disabled])),
+    button:hover:where(:not(.unapi *, [disabled], [role="tab"], .ui-button, .swal-button, .switch-button-button, .fl-bare)),
+    a.button:hover:where(:not(.unapi *, [disabled])) {
+        border-color: var(--fl-stroke-control);
+        border-bottom-color: var(--fl-stroke-control-bottom);
+        color: var(--tp-text);
+        background: var(--fl-control-hover);
+        box-shadow: none;
+        transform: none;
+    }
+
+    input:active[type="button"]:where(:not(.unapi *, [disabled])),
+    input:active[type="reset"]:where(:not(.unapi *, [disabled])),
+    button:active:where(:not(.unapi *, [disabled], [role="tab"], .ui-button, .swal-button, .switch-button-button, .fl-bare)),
+    a.button:active:where(:not(.unapi *, [disabled])) {
+        border-color: var(--fl-stroke-control);
+        color: color-mix(in srgb, var(--tp-text) 78.6%, transparent);
+        background: var(--fl-control-pressed);
+        transform: scale(0.98);
+    }
+
+    /* Accent button: the form's submit (Apply, Update, Start), as in Windows' dialogs. */
+    input[type="submit"]:where(:not(.unapi *, [disabled])),
+    .sweet-alert button.confirm,
+    .ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset button:first-child,
+    .tp-modal button.tp-modal-button.tp-primary {
+        border: 1px solid color-mix(in srgb, white 8%, transparent);
+        border-bottom-color: color-mix(in srgb, black 40%, transparent);
+        color: var(--tp-primary-text);
+        background: var(--tp-primary);
+    }
+
+    input[type="submit"]:hover:where(:not(.unapi *, [disabled])),
+    .sweet-alert button.confirm:hover,
+    .ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset button:first-child:hover,
+    .tp-modal button.tp-modal-button.tp-primary:hover {
+        border-color: color-mix(in srgb, white 8%, transparent);
+        border-bottom-color: color-mix(in srgb, black 40%, transparent);
+        color: var(--tp-primary-text);
+        background: color-mix(in srgb, var(--tp-primary) 90%, var(--fl-mica));
+    }
+
+    input[type="submit"]:active:where(:not(.unapi *, [disabled])),
+    .sweet-alert button.confirm:active,
+    .tp-modal button.tp-modal-button.tp-primary:active {
+        color: color-mix(in srgb, var(--tp-primary-text) 78%, transparent);
+        background: color-mix(in srgb, var(--tp-primary) 80%, var(--fl-mica));
+        transform: scale(0.98);
+    }
+
+    input[type="button"][disabled]:where(:not(.unapi *)),
+    input[type="reset"][disabled]:where(:not(.unapi *)),
+    input[type="submit"][disabled]:where(:not(.unapi *)),
+    button[disabled]:where(:not(.unapi *, [role="tab"], .ui-button)),
+    a.button[disabled]:where(:not(.unapi *)) {
+        border-color: var(--fl-stroke-control);
+        color: color-mix(in srgb, var(--tp-text) 36%, transparent);
+        background: color-mix(in srgb, var(--fl-control) 60%, transparent);
+        opacity: 1;
+    }
+
+    /* ======================================================================
+       Text fields: the Fluent text box. A quiet fill, and a bottom stroke that
+       turns into a 2px accent line while typing.
+       ====================================================================== */
+    input:is([type="text"], [type="password"], [type="number"], [type="email"], [type="search"], [type="url"], [type="tel"], :not([type])):where(:not(.unapi *)),
+    textarea:where(:not(.unapi *)),
+    select:where(:not(.unapi *)) {
+        border: 1px solid var(--fl-stroke-control);
+        border-bottom-color: var(--fl-stroke-input-bottom);
+        border-radius: var(--tp-r-control);
+        background-color: var(--fl-control);
+        font-family: var(--tp-font-body);
+        transition: background-color var(--fl-dur-fast) var(--tp-ease), box-shadow var(--fl-dur-fast) var(--tp-ease), border-color var(--fl-dur-fast) var(--tp-ease);
+    }
+
+    input:is([type="text"], [type="password"], [type="number"], [type="email"], [type="search"], [type="url"], [type="tel"], :not([type])):where(:not(.unapi *)):hover,
+    textarea:where(:not(.unapi *)):hover,
+    select:where(:not(.unapi *)):hover {
+        background-color: var(--fl-control-hover);
+    }
+
+    input:is([type="text"], [type="password"], [type="number"], [type="email"], [type="search"], [type="url"], [type="tel"], :not([type])):where(:not(.unapi *)):focus,
+    textarea:where(:not(.unapi *)):focus,
+    select:where(:not(.unapi *)):focus {
+        border-color: var(--fl-stroke-control);
+        border-bottom-color: var(--tp-primary);
+        background-color: color-mix(in srgb, var(--fl-mica) 70%, var(--tp-elevated));
+        box-shadow: inset 0 -1px 0 var(--tp-primary);
+        outline: 0;
+    }
+
+    /* Checkboxes and radio buttons in the accent colour. */
+    input[type="checkbox"]:where(:not(.unapi *)),
+    input[type="radio"]:where(:not(.unapi *)) {
+        accent-color: var(--tp-primary);
+    }
+
+    /* ======================================================================
+       Toggle switch: Fluent's pill with a knob that grows on hover and
+       stretches while pressed. Unraid's switchButton markup, no power icon.
+       ====================================================================== */
+    .switch-button-background {
+        width: 4rem !important;
+        height: 2rem !important;
+        border: 1px solid var(--fl-stroke-input-bottom);
+        border-radius: var(--tp-r-full);
+        background-color: var(--fl-control);
+        box-shadow: none;
+        transition: background-color var(--fl-dur-fast) var(--tp-ease), border-color var(--fl-dur-fast) var(--tp-ease);
+    }
+
+    .switch-button-background:hover {
+        border-color: var(--fl-stroke-input-bottom);
+        background-color: var(--fl-control-hover);
+    }
+
+    .switch-button-background.checked {
+        border-color: var(--tp-primary);
+        background: var(--tp-primary);
+        box-shadow: none;
+    }
+
+    .switch-button-background.checked:hover {
+        background: color-mix(in srgb, var(--tp-primary) 90%, var(--fl-mica));
+    }
+
+    .switch-button-button {
+        top: 50%;
+        left: 0.4rem !important;
+        width: 1.2rem !important;
+        height: 1.2rem !important;
+        margin-top: -0.6rem;
+        border-radius: var(--tp-r-full);
+        background: color-mix(in srgb, var(--tp-text) 78%, transparent);
+        box-shadow: none;
+        transform: none;
+        transition: transform var(--fl-dur-normal) var(--fl-ease-decel), width var(--fl-dur-fast) var(--tp-ease),
+            height var(--fl-dur-fast) var(--tp-ease), margin var(--fl-dur-fast) var(--tp-ease), background-color var(--fl-dur-fast) var(--tp-ease);
+    }
+
+    .switch-button-button:after {
+        content: none;
+    }
+
+    .switch-button-background:hover .switch-button-button {
+        width: 1.4rem !important;
+        height: 1.4rem !important;
+        margin-top: -0.7rem;
+    }
+
+    .switch-button-background:active .switch-button-button {
+        width: 1.7rem !important;
+    }
+
+    .switch-button-background.checked .switch-button-button {
+        background: var(--tp-primary-text);
+        box-shadow: none;
+        transform: translateX(2rem);
+    }
+
+    .switch-button-background.checked:hover .switch-button-button {
+        transform: translateX(1.8rem);
+    }
+
+    .switch-button-background.checked:active .switch-button-button {
+        transform: translateX(1.5rem);
+    }
+
+    .switch-button-label {
+        color: var(--tp-text);
+        font: 400 1.4rem/2rem var(--tp-font-body);
+        letter-spacing: 0;
+    }
+
+    .switch-button-label.on {
+        color: var(--tp-text);
+    }
+
+    /* ======================================================================
+       Page tabs: Windows 11 SelectorBar. Text tabs on the layer, the selected
+       one marked by a short accent pill that grows in.
+       ====================================================================== */
+    .tabs .tabs-container {
+        gap: 0.4rem;
+        padding: 0.2rem;
+        border: 0;
+        border-radius: var(--tp-r-md);
+        background: transparent;
+        box-shadow: none;
+    }
+
+    .tabs button[role="tab"] {
+        min-height: 3.6rem;
+        padding: 0.6rem 1.2rem;
+        border: 0;
+        border-radius: var(--tp-r-control);
+        color: var(--tp-muted);
+        font: 400 1.4rem/2rem var(--tp-font-body);
+        transition: background-color var(--fl-dur-fast) var(--tp-ease), color var(--fl-dur-fast) var(--tp-ease);
+    }
+
+    .tabs button[role="tab"]:hover {
+        color: var(--tp-text);
+        background-color: var(--fl-subtle-hover);
+    }
+
+    .tabs button[role="tab"]:active {
+        background-color: var(--fl-subtle-pressed);
+    }
+
+    .tabs button[role="tab"][aria-selected="true"] {
+        border: 0;
+        color: var(--tp-text);
+        font-weight: 600;
+        background: transparent;
+        box-shadow: none;
+    }
+
+    .tabs button[role="tab"][aria-selected="true"]:hover {
+        background-color: var(--fl-subtle-hover);
+    }
+
+    .tabs button[role="tab"]:after {
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        width: 1.6rem;
+        height: 3px;
+        margin-left: -0.8rem;
+        border-radius: 2px;
+        background: var(--tp-primary);
+        transform: scaleX(0);
+        transition: transform var(--fl-dur-normal) var(--fl-ease-decel);
+        content: "";
+    }
+
+    .tabs button[role="tab"][aria-selected="true"]:after {
+        top: auto;
+        right: auto;
+        bottom: 0;
+        left: 50%;
+        width: 1.6rem;
+        height: 3px;
+        background: var(--tp-primary);
+        transform: scaleX(1);
+    }
+
+    .tabs button[role="tab"] i,
+    .tabs button[role="tab"][aria-selected="true"] i {
+        color: inherit;
+    }
+
+    /* ======================================================================
+       Flyouts: context menus, drop-down lists, tooltips. Acrylic, 8px corners,
+       and they drop in from above.
+       ====================================================================== */
+    .dropdown-menu,
+    .tp-select-panel,
+    .tooltipster-base .tooltipster-box,
+    .fl-flyout {
+        border: 1px solid var(--fl-stroke);
+        border-radius: var(--tp-r-md);
+        background: var(--fl-acrylic);
+        box-shadow: var(--fl-shadow-flyout);
+        -webkit-backdrop-filter: blur(30px) saturate(150%);
+        backdrop-filter: blur(30px) saturate(150%);
+    }
+
+    .dropdown-menu,
+    .tp-select-panel {
+        padding: 0.4rem;
+        animation: fl-flyout-in var(--fl-dur-normal) var(--fl-ease-decel);
+    }
+
+    .dropdown-context-up {
+        animation-name: fl-flyout-up;
+    }
+
+    .dropdown-menu a,
+    .tp-select-panel .tp-select-option {
+        margin: 0.2rem 0;
+        border-radius: var(--tp-r-control);
+        transition: background-color var(--fl-dur-fast) var(--tp-ease);
+    }
+
+    .dropdown-menu a:hover,
+    .dropdown-menu a:focus,
+    .tp-select-panel .tp-select-option:hover,
+    .tp-select-panel .tp-select-option.tp-active {
+        color: var(--tp-text);
+        background: var(--fl-subtle-hover);
+    }
+
+    /* The selected entry carries Fluent's short accent pill at its start. */
+    .tp-select-panel .tp-select-option.tp-selected {
+        position: relative;
+        background: var(--fl-subtle-hover);
+    }
+
+    .tp-select-panel .tp-select-option.tp-selected::before {
+        position: absolute;
+        top: 50%;
+        left: 0;
+        width: 3px;
+        height: 1.6rem;
+        margin-top: -0.8rem;
+        border-radius: 2px;
+        background: var(--tp-primary);
+        content: "";
+    }
+
+    .tooltipster-base .tooltipster-box {
+        border-radius: var(--tp-r-control);
+        background: var(--fl-acrylic-strong);
+    }
+
+    .tooltipster-fade {
+        transition-duration: var(--fl-dur-fast) !important;
+    }
+
+    /* ======================================================================
+       Dialogs: smoke behind, the dialog scales down into place (ContentDialog),
+       the button row on a darker band.
+       ====================================================================== */
+    .sweet-overlay,
+    .ui-widget-overlay,
+    .tp-modal-backdrop {
+        background: var(--fl-smoke) !important;
+        -webkit-backdrop-filter: none;
+        backdrop-filter: none;
+        animation: fl-fade-in var(--fl-dur-normal) linear;
+    }
+
+    .sweet-alert,
+    .ui-dialog,
+    .tp-modal,
+    .tp-ct-modal {
+        border: 1px solid var(--fl-stroke);
+        border-radius: var(--tp-r-md) !important;
+        background: var(--fl-acrylic-strong);
+        box-shadow: var(--fl-shadow-dialog);
+        -webkit-backdrop-filter: blur(30px) saturate(150%);
+        backdrop-filter: blur(30px) saturate(150%);
+    }
+
+    .sweet-alert.showSweetAlert,
+    .sweet-alert.visible,
+    .ui-dialog,
+    .tp-modal,
+    .tp-ct-modal {
+        animation: fl-dialog-in var(--fl-dur-normal) var(--fl-ease-decel) both;
+    }
+
+    .sweet-alert.hideSweetAlert {
+        animation: fl-dialog-out var(--fl-dur-fast) var(--fl-ease-accel) both;
+    }
+
+    .ui-dialog .ui-dialog-buttonpane {
+        margin: 0 -0.1rem -0.1rem;
+        border-top: 1px solid var(--fl-stroke);
+        border-radius: 0 0 var(--tp-r-md) var(--tp-r-md);
+        background: color-mix(in srgb, var(--fl-mica) 60%, transparent);
+    }
+
+    /* SweetAlert paints its confirm button inline; the accent wins here. */
+    .sweet-alert button.confirm {
+        background-color: var(--tp-primary) !important;
+        box-shadow: none !important;
+    }
+
+    .sweet-alert h2,
+    .ui-dialog .ui-dialog-title {
+        font: 600 2rem/2.8rem var(--tp-font-heading);
+        letter-spacing: 0;
+    }
+
+    /* ======================================================================
+       Navigation: the pill marks the open tab and slides to the next one
+       when another page opens (view transitions, see the top of the file).
+       ====================================================================== */
+    #menu .nav-tile:not(.right) .nav-item:after {
+        content: none;
+    }
+
+    #menu .nav-tile:not(.right) .nav-item {
+        position: relative;
+    }
+
+    #menu .fl-pill {
+        position: absolute;
+        z-index: 1;
+        border-radius: 2px;
+        background: var(--tp-primary);
+        pointer-events: none;
+        view-transition-name: fl-nav-pill;
+        animation: fl-pill-in var(--fl-dur-slow) var(--fl-ease-decel);
+    }
+
+    /* Group headings and separators of the menu (fluent.js). */
+    #menu .fl-nav-header {
+        display: none;
+    }
+
+    /* Sidebar's quick-search box: opens the command palette. */
+    .fl-search-launch {
+        display: none;
+    }
+
+    /* ======================================================================
+       Footer: a slim acrylic bar.
+       ====================================================================== */
+    #footer {
+        view-transition-name: fl-footer;
+        border-top: 1px solid var(--fl-stroke);
+        background: var(--fl-acrylic);
+        -webkit-backdrop-filter: blur(30px) saturate(150%);
+        backdrop-filter: blur(30px) saturate(150%);
+    }
+
+    /* ======================================================================
+       Progress and usage bars: Fluent's thin rounded bars.
+       ====================================================================== */
+    .tp-progress,
+    .tp-usage-track,
+    .usage-disk:not(.sys, .mm) {
+        border-radius: var(--tp-r-full);
+    }
+
+    /* ======================================================================
+       Pointer light ("reveal"): a soft spotlight follows the pointer over cards,
+       set by fluent.js through --fl-x / --fl-y. Fine pointers only.
+       ====================================================================== */
+    @media (hover: hover) and (pointer: fine) {
+        :is(.Panel > a, table.dashboard > tbody, .tp-summary, .fl-reveal) {
+            background-image: radial-gradient(28rem circle at var(--fl-x, -100rem) var(--fl-y, -100rem), color-mix(in srgb, var(--tp-text) 5%, transparent), transparent 60%);
+        }
+    }
+
+    /* ======================================================================
+       Page entrance (first load, or browsers without view transitions):
+       tiles and cards rise in, one after the other.
+       ====================================================================== */
+    &.fl-enter {
+        #displaybox > .tp-heading,
+        #displaybox > .tp-summary,
+        table.dashboard > tbody,
+        #displaybox .Panels > .Panel,
+        #displaybox .TableContainer,
+        #displaybox > form,
+        #displaybox > .tabs-container {
+            animation: fl-rise var(--fl-dur-page) var(--fl-ease-decel) both;
+            animation-delay: calc(var(--fl-i, 0) * 28ms);
+        }
+    }
+
+    /* ======================================================================
+       Command palette (Ctrl+K): fluent.js.
+       ====================================================================== */
+    .fl-palette-backdrop {
+        position: fixed;
+        z-index: 10050;
+        inset: 0;
+        background: color-mix(in srgb, black 24%, transparent);
+        animation: fl-fade-in var(--fl-dur-fast) linear;
+    }
+
+    .fl-palette {
+        position: fixed;
+        z-index: 10051;
+        top: 12vh;
+        left: 50%;
+        display: flex;
+        flex-direction: column;
+        width: min(64rem, calc(100vw - 3.2rem));
+        max-height: 64vh;
+        overflow: hidden;
+        border: 1px solid var(--fl-stroke);
+        border-radius: var(--tp-r-md);
+        color: var(--tp-text);
+        background: var(--fl-acrylic);
+        box-shadow: var(--fl-shadow-dialog);
+        -webkit-backdrop-filter: blur(40px) saturate(160%);
+        backdrop-filter: blur(40px) saturate(160%);
+        transform: translateX(-50%);
+        animation: fl-palette-in var(--fl-dur-slow) var(--fl-ease-decel) both;
+    }
+
+    .fl-palette.fl-closing {
+        animation: fl-palette-out var(--fl-dur-fast) var(--fl-ease-accel) both;
+    }
+
+    .fl-palette-field {
+        display: flex;
+        align-items: center;
+        gap: 1.2rem;
+        padding: 1.4rem 1.8rem;
+        border-bottom: 1px solid var(--fl-stroke);
+    }
+
+    .fl-palette-field > i {
+        color: var(--tp-muted);
+        font-size: 1.6rem;
+    }
+
+    .fl-palette input.fl-palette-input {
+        flex: 1;
+        min-width: 0;
+        height: auto;
+        margin: 0;
+        padding: 0;
+        border: 0 !important;
+        color: var(--tp-text);
+        background: transparent !important;
+        box-shadow: none !important;
+        font: 400 1.8rem/2.4rem var(--tp-font-body);
+    }
+
+    .fl-palette kbd,
+    .fl-search-launch kbd {
+        padding: 0.1rem 0.6rem;
+        border: 1px solid var(--fl-stroke);
+        border-bottom-width: 2px;
+        border-radius: var(--tp-r-control);
+        color: var(--tp-muted);
+        background: var(--fl-control);
+        font: 500 1.1rem/1.6rem var(--tp-font-body);
+    }
+
+    .fl-palette-list {
+        flex: 1;
+        margin: 0;
+        padding: 0.4rem 0.6rem 0.8rem;
+        overflow-y: auto;
+        list-style: none;
+        overscroll-behavior: contain;
+    }
+
+    .fl-palette-group {
+        padding: 1rem 1.2rem 0.4rem;
+        color: var(--tp-muted);
+        font: 600 1.2rem/1.6rem var(--tp-font-body);
+    }
+
+    .fl-palette-item {
+        position: relative;
+        display: grid;
+        grid-template-columns: 2.4rem minmax(0, 1fr) auto;
+        align-items: center;
+        gap: 0 1.2rem;
+        min-height: 4rem;
+        margin: 0.1rem 0;
+        padding: 0.6rem 1.2rem;
+        border-radius: var(--tp-r-control);
+        cursor: pointer;
+        transition: background-color var(--fl-dur-fast) var(--tp-ease);
+    }
+
+    .fl-palette-item:hover {
+        background: var(--fl-subtle-hover);
+    }
+
+    .fl-palette-item.fl-active {
+        background: var(--fl-subtle-hover);
+    }
+
+    .fl-palette-item.fl-active::before {
+        position: absolute;
+        top: 50%;
+        left: 0;
+        width: 3px;
+        height: 1.6rem;
+        margin-top: -0.8rem;
+        border-radius: 2px;
+        background: var(--tp-primary);
+        animation: fl-pill-in var(--fl-dur-normal) var(--fl-ease-decel);
+        content: "";
+    }
+
+    .fl-palette-icon {
+        display: grid;
+        place-items: center;
+        color: var(--tp-primary);
+        font-size: 1.6rem;
+    }
+
+    .fl-palette-icon img {
+        width: 2rem;
+        height: 2rem;
+        object-fit: contain;
+    }
+
+    .fl-palette-text {
+        min-width: 0;
+    }
+
+    .fl-palette-title {
+        display: block;
+        overflow: hidden;
+        font: 400 1.4rem/2rem var(--tp-font-body);
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+
+    .fl-palette-title mark {
+        color: inherit;
+        font-weight: 700;
+        background: none;
+    }
+
+    .fl-palette-desc {
+        display: block;
+        overflow: hidden;
+        color: var(--tp-muted);
+        font: 400 1.2rem/1.6rem var(--tp-font-body);
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+
+    .fl-palette-where {
+        color: var(--tp-muted);
+        font: 400 1.2rem/1.6rem var(--tp-font-body);
+    }
+
+    .fl-palette-empty {
+        padding: 2.4rem 1.2rem;
+        color: var(--tp-muted);
+        text-align: center;
+    }
+
+    .fl-palette-foot {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.4rem 1.6rem;
+        padding: 0.8rem 1.8rem;
+        border-top: 1px solid var(--fl-stroke);
+        color: var(--tp-muted);
+        font: 400 1.2rem/1.6rem var(--tp-font-body);
+        background: color-mix(in srgb, var(--fl-mica) 40%, transparent);
+    }
+
+    .fl-palette-foot span {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.6rem;
+    }
+
+    /* Top bar: a compact search button that opens the palette. */
+    #header .fl-search-button {
+        display: inline-flex;
+        align-items: center;
+        gap: 1rem;
+        min-width: 22rem;
+        height: 3.2rem;
+        margin: 0 1.2rem;
+        padding: 0 0.6rem 0 1.2rem;
+        border: 1px solid var(--fl-stroke-control);
+        border-bottom-color: var(--fl-stroke-input-bottom);
+        border-radius: var(--tp-r-control);
+        color: var(--tp-muted);
+        background: var(--fl-control);
+        font: 400 1.3rem/1 var(--tp-font-body);
+        cursor: text;
+        transition: background-color var(--fl-dur-fast) var(--tp-ease);
+    }
+
+    #header .fl-search-button:hover {
+        background: var(--fl-control-hover);
+    }
+
+    #header .fl-search-button kbd {
+        margin-left: auto;
+        padding: 0.1rem 0.6rem;
+        border: 1px solid var(--fl-stroke);
+        border-radius: var(--tp-r-control);
+        font: 500 1.1rem/1.6rem var(--tp-font-body);
+    }
+
+    @media (max-width: 767px) {
+        #header .fl-search-button {
+            min-width: 0;
+            width: 3.6rem;
+            padding: 0;
+            justify-content: center;
+        }
+
+        #header .fl-search-button :is(span, kbd) {
+            display: none;
+        }
+    }
+}
+
+/* ==========================================================================
+   Sidebar layout on wide screens: Windows 11 NavigationView. The menu sits
+   on Mica without a border, the page on a raised layer with a rounded corner.
+   ========================================================================== */
+@media (min-width: 1024px) {
+    :root.tp-sidebar.Theme--nav-top:is(.Theme--black, .Theme--white) {
+        --tp-sidebar-line: transparent;
+
+        #menu {
+            gap: 0.4rem;
+            padding-top: 11.2rem;
+            border-right: 0;
+            background: transparent;
+            view-transition-name: fl-menu;
+        }
+
+        #header {
+            border-bottom: 0;
+            background-color: transparent;
+            view-transition-name: fl-header;
+        }
+
+        #header unraid-header-os-version {
+            view-transition-name: fl-brand;
+        }
+
+        #displaybox {
+            min-height: calc(100vh - 6.4rem);
+            box-sizing: border-box;
+            border-top: 1px solid var(--fl-stroke);
+            border-left: 1px solid var(--fl-stroke);
+            border-top-left-radius: var(--tp-r-md);
+            background: var(--fl-layer);
+            view-transition-name: fl-page;
+        }
+
+        &.tp-sidebar-collapsed #displaybox {
+            border-left: 0;
+            border-top-left-radius: 0;
+        }
+
+        .nav-tile {
+            gap: 0.2rem;
+        }
+
+        .nav-tile:not(.right) .nav-item a {
+            min-height: 3.6rem;
+            padding: 0 1.2rem;
+            border-radius: var(--tp-r-control);
+            color: var(--tp-text);
+            font: 400 1.4rem/2rem var(--tp-font-body);
+            transition: background-color var(--fl-dur-fast) var(--tp-ease);
+        }
+
+        .nav-tile:not(.right) .nav-item:hover a {
+            background-color: var(--fl-subtle-hover);
+        }
+
+        .nav-tile:not(.right) .nav-item a:active {
+            background-color: var(--fl-subtle-pressed);
+        }
+
+        .nav-tile:not(.right) .nav-item.active a {
+            font-weight: 400;
+            background-color: var(--fl-subtle-hover);
+        }
+
+        .nav-tile:not(.right) .nav-item a:before {
+            color: var(--tp-text);
+            opacity: 0.9;
+        }
+
+        .nav-tile:not(.right) .nav-item.active a:before {
+            color: var(--tp-primary);
+        }
+
+        #menu .fl-pill {
+            top: 50%;
+            left: 0;
+            width: 3px;
+            height: 1.6rem;
+            margin-top: -0.8rem;
+        }
+
+        #menu .fl-nav-header {
+            display: block;
+            padding: 1.4rem 1.2rem 0.4rem;
+            color: var(--tp-muted);
+            font: 600 1.2rem/1.6rem var(--tp-font-body);
+        }
+
+        #menu .fl-nav-header:first-child {
+            padding-top: 0.4rem;
+        }
+
+        .tp-server {
+            margin-bottom: 0.4rem;
+        }
+
+        /* Find-a-setting box above the menu, like the Settings app. */
+        .fl-search-launch {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            width: 100%;
+            min-height: 3.2rem;
+            margin: 0 0 0.8rem;
+            padding: 0 0.6rem 0 1.2rem;
+            border: 1px solid var(--fl-stroke-control);
+            border-bottom-color: var(--fl-stroke-input-bottom);
+            border-radius: var(--tp-r-control);
+            color: var(--tp-muted);
+            background: var(--fl-control);
+            font: 400 1.4rem/2rem var(--tp-font-body);
+            text-align: left;
+            cursor: text;
+            transition: background-color var(--fl-dur-fast) var(--tp-ease);
+        }
+
+        .fl-search-launch:hover {
+            color: var(--tp-muted);
+            background: var(--fl-control-hover);
+        }
+
+        .fl-search-launch kbd {
+            margin-left: auto;
+        }
+
+        /* Quick actions: the five used most stay as icon buttons, the rest live in the
+           command palette ("More"). */
+        .nav-tile.right {
+            grid-template-columns: repeat(auto-fit, minmax(2.2rem, 1fr));
+            gap: 0.2rem;
+            padding: 0.8rem;
+            border: 1px solid var(--fl-stroke-card);
+            border-radius: var(--tp-r-md);
+            background-color: var(--fl-card);
+        }
+
+        .nav-tile.right .nav-item.fl-tucked {
+            display: none !important;
+        }
+
+        .nav-tile.right:before {
+            padding: 0 0.4rem;
+            color: var(--tp-muted);
+            font: 600 1.2rem/1.6rem var(--tp-font-body);
+            letter-spacing: 0;
+            text-transform: none;
+            opacity: 1;
+            content: "Quick actions";
+        }
+
+        .nav-tile.right .nav-item a,
+        .nav-tile.right .nav-user a {
+            border: 0;
+            border-radius: var(--tp-r-control);
+            color: var(--tp-text);
+            background-color: transparent;
+            transition: background-color var(--fl-dur-fast) var(--tp-ease);
+        }
+
+        .nav-tile.right .nav-item a:hover,
+        .nav-tile.right .nav-user a:hover {
+            border: 0;
+            color: var(--tp-text);
+            background-color: var(--fl-subtle-hover);
+            box-shadow: none;
+            transform: none;
+        }
+
+        .nav-tile.right .nav-item a:active {
+            background-color: var(--fl-subtle-pressed);
+        }
+    }
+
+    /* Sidebar menu lines that assumed a dark menu now follow the palette. */
+    :root.tp-sidebar.Theme--nav-top.Theme--white #header unraid-header-os-version span[role="button"][aria-haspopup] {
+        color: var(--tp-text);
+    }
+}
+
+/* Top-bar layout: the pill sits under the open tab, and groups are set apart by a hairline. */
+:root.tp-topbar:is(.Theme--black, .Theme--white) {
+    #menu {
+        view-transition-name: fl-menu;
+    }
+
+    #header {
+        view-transition-name: fl-header;
+    }
+
+    #displaybox {
+        view-transition-name: fl-page;
+    }
+
+    #menu .nav-tile:not(.right) .nav-item:after {
+        content: none;
+    }
+
+    #menu .fl-pill {
+        bottom: 0.2rem;
+        left: 50%;
+        width: 1.6rem;
+        height: 3px;
+        margin-left: -0.8rem;
+    }
+
+    #menu .fl-nav-sep {
+        display: block;
+        flex: none;
+        align-self: center;
+        width: 1px;
+        height: 2rem;
+        margin: 0 0.4rem;
+        background: var(--fl-stroke);
+    }
+
+    #menu .nav-tile:not(.right) .nav-item a {
+        border-radius: var(--tp-r-control);
+        transition: background-color var(--fl-dur-fast) var(--tp-ease);
+    }
+
+    #menu .nav-tile:not(.right) .nav-item:hover a {
+        background-color: var(--fl-subtle-hover);
+    }
+
+    #menu .nav-tile:not(.right) .nav-item.active a {
+        border-color: transparent;
+        color: var(--tp-text);
+        background: var(--fl-subtle-hover);
+        box-shadow: none;
+    }
+}
+
+:root:not(.tp-topbar) #menu .fl-nav-sep {
+    display: none;
+}
+
+/* ==========================================================================
+   View transitions between pages
+   ========================================================================== */
+::view-transition-group(*) {
+    animation-duration: var(--fl-dur-slow, 333ms);
+    animation-timing-function: var(--fl-ease-point, cubic-bezier(0.55, 0.55, 0, 1));
+}
+
+::view-transition-old(fl-page) {
+    animation: fl-page-out 120ms var(--fl-ease-accel, ease-in) both;
+}
+
+::view-transition-new(fl-page) {
+    animation: fl-page-in var(--fl-dur-page, 500ms) var(--fl-ease-decel, ease-out) 60ms both;
+}
+
+/* The menu, top bar, brand and footer do not change between pages: no cross-fade flicker. */
+::view-transition-old(fl-menu),
+::view-transition-old(fl-header),
+::view-transition-old(fl-brand),
+::view-transition-old(fl-footer) {
+    animation: none;
+    opacity: 0;
+}
+
+::view-transition-new(fl-menu),
+::view-transition-new(fl-header),
+::view-transition-new(fl-brand),
+::view-transition-new(fl-footer) {
+    animation: none;
+}
+
+::view-transition-group(fl-nav-pill) {
+    animation-duration: var(--fl-dur-slow, 333ms);
+    animation-timing-function: var(--fl-ease-decel, cubic-bezier(0.1, 0.9, 0.2, 1));
+}
+
+/* ==========================================================================
+   Keyframes
+   ========================================================================== */
+@keyframes fl-fade-in {
+    from { opacity: 0; }
+}
+
+@keyframes fl-rise {
+    from { opacity: 0; transform: translateY(1.6rem); }
+}
+
+@keyframes fl-page-in {
+    from { opacity: 0; transform: translateY(2.4rem); }
+}
+
+@keyframes fl-page-out {
+    to { opacity: 0; }
+}
+
+@keyframes fl-flyout-in {
+    from { opacity: 0; transform: translateY(-0.8rem); clip-path: inset(0 0 100% 0 round 8px); }
+    to { clip-path: inset(0 0 0 0 round 8px); }
+}
+
+@keyframes fl-flyout-up {
+    from { opacity: 0; transform: translateY(0.8rem); }
+}
+
+@keyframes fl-dialog-in {
+    from { opacity: 0; transform: scale(1.05); }
+}
+
+@keyframes fl-dialog-out {
+    to { opacity: 0; transform: scale(1.05); }
+}
+
+@keyframes fl-palette-in {
+    from { opacity: 0; transform: translateX(-50%) translateY(-1.2rem) scale(0.98); }
+}
+
+@keyframes fl-palette-out {
+    to { opacity: 0; transform: translateX(-50%) translateY(-0.6rem) scale(0.98); }
+}
+
+@keyframes fl-pill-in {
+    from { transform: scale(0.2); opacity: 0; }
+}
+
+/* ==========================================================================
+   Transparency effects off: solid surfaces, no blur (slow GPUs, remote desktops).
+   ========================================================================== */
+:root.fl-transparency-off:is(.Theme--black, .Theme--white) {
+    --fl-acrylic: var(--tp-elevated);
+    --fl-acrylic-strong: var(--tp-elevated);
+    --fl-mica-tint: transparent;
+    --fl-card: var(--tp-elevated);
+    --fl-layer: color-mix(in srgb, var(--tp-elevated) 40%, var(--tp-bg));
+    background-image: none;
+
+    body::before {
+        content: none;
+    }
+
+    *,
+    *::before,
+    *::after {
+        -webkit-backdrop-filter: none !important;
+        backdrop-filter: none !important;
+    }
+}
+
+/* ==========================================================================
+   Animations off, or the system asks for reduced motion.
+   ========================================================================== */
+:root.fl-motion-off {
+    --fl-dur-fast: 0ms;
+    --fl-dur-normal: 0ms;
+    --fl-dur-slow: 0ms;
+    --fl-dur-page: 0ms;
+
+    *,
+    *::before,
+    *::after {
+        animation: none !important;
+        transition-duration: 0ms !important;
+    }
+}
+
+:root.fl-motion-off::view-transition-group(*),
+:root.fl-motion-off::view-transition-old(*),
+:root.fl-motion-off::view-transition-new(*) {
+    animation: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    :root:is(.Theme--black, .Theme--white) *,
+    :root:is(.Theme--black, .Theme--white) *::before,
+    :root:is(.Theme--black, .Theme--white) *::after {
+        animation-duration: 1ms !important;
+        animation-delay: 0ms !important;
+        transition-duration: 1ms !important;
+    }
+
+    ::view-transition-group(*),
+    ::view-transition-old(*),
+    ::view-transition-new(*) {
+        animation: none !important;
+    }
+}

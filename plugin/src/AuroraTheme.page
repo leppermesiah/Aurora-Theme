@@ -66,7 +66,12 @@ if (preg_match('/^[0-9a-f]{6}$/', $auroraAccent)):
 .unapi:not(#tp-none):not(#tp-none) { <?= implode(' ', $auroraScale) ?> }
 </style>
 <?php endif; ?>
-<?php if (($aurora['font'] ?? 'aurora') === 'unraid'): ?>
+<?php if (($aurora['font'] ?? 'fluent') === 'aurora'): ?>
+<style id="aurora-fonts">
+:root:root:root { --tp-font-body: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif; --tp-font-heading: "Space Grotesk", var(--tp-font-body); }
+</style>
+<?php endif; ?>
+<?php if (($aurora['font'] ?? 'fluent') === 'unraid'): ?>
 <?php
 // Fonts from the plugin's settings, "Unraid default": theme.css points Unraid's font names
 // (clear-sans, bitstream) at Inter; these later rules point them back at Unraid's own files, and
@@ -98,10 +103,33 @@ document.addEventListener('DOMContentLoaded', function () {
   link.rel = 'noopener noreferrer';
   link.title = 'Aurora Theme on GitHub';
   link.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/></svg>Aurora Theme by <strong>Tunefish</strong>';
-  footer.append(link);
+  // Fluent edition: the original author first, then who reworked it.
+  var remix = document.createElement('a');
+  remix.className = 'tp-credit tp-credit-remix';
+  remix.href = 'https://github.com/@@GITHUB_REPO@@';
+  remix.target = '_blank';
+  remix.rel = 'noopener noreferrer';
+  remix.title = 'Aurora Theme, Fluent edition, on GitHub';
+  remix.innerHTML = 'Fluent edition by <strong>leppermesiah</strong>';
+  footer.append(link, remix);
 });
 </script>
 <?php endif; ?>
+<script>
+// Fluent edition: animations and transparency effects from the settings page, and the cards'
+// entrance on a fresh page load. When the browser carried the page in with a view transition
+// (from another page of the webGUI), that transition is the entrance and the cards stay put.
+(function (root, motion, transparency) {
+  if (!motion) root.classList.add('fl-motion-off');
+  if (!transparency) root.classList.add('fl-transparency-off');
+  if (!motion) return;
+  if ('onpagereveal' in window) {
+    window.addEventListener('pagereveal', function (event) { if (!event.viewTransition) root.classList.add('fl-enter'); }, { once: true });
+  } else {
+    root.classList.add('fl-enter');
+  }
+})(document.documentElement, <?= ($aurora['motion'] ?? 'on') === 'off' ? 'false' : 'true' ?>, <?= ($aurora['transparency'] ?? 'on') === 'off' ? 'false' : 'true' ?>);
+</script>
 <script>
 // "tp-topbar" while the menu is a bar across the top: always in the top layout, and in the
 // sidebar layout on screens narrower than 1024px. Set here in the head, so there is no flash.
@@ -244,6 +272,10 @@ if (in_array(rtrim((string) parse_url($_SERVER['REQUEST_URI'] ?? '', PHP_URL_PAT
 <?php endif; ?>
 <?php if ($auroraClasses): ?>
 <script>document.documentElement.classList.add(...<?= json_encode($auroraClasses) ?>);</script>
+<?php endif; ?>
+<?php if (($aurora['theme'] ?? 'yes') == 'yes'): ?>
+<link type="text/css" rel="stylesheet" href="<?php autov('/plugins/Aurora-Theme/styles/fluent.css') ?>">
+<script defer src="<?php autov('/plugins/Aurora-Theme/scripts/fluent.js') ?>"></script>
 <?php endif; ?>
 <?php if (is_file("$auroraCustomDir/custom.css")): ?>
 <style id="aurora-custom-css">

@@ -20,10 +20,10 @@ _(Colours and fonts)_:
 > themes are left as they are.
 
 _(Accent colour)_:
-: <span class="tft-accent"><input type="color" id="tft-accent-pick" aria-label="_(Pick the accent colour)_" value="<?= htmlspecialchars(preg_match('/^#[0-9a-fA-F]{6}$/', $aurora['accent'] ?? '') ? $aurora['accent'] : '#4f8bff') ?>"><input type="text" name="accent" id="tft-accent" maxlength="7" placeholder="_(Theme blue)_" pattern="#?([0-9a-fA-F]{3}|[0-9a-fA-F]{6})" title="_(Colour code such as #4f8bff; empty for the theme's blue)_" value="<?= htmlspecialchars($aurora['accent'] ?? '') ?>"><input type="button" value="_(Default)_" onclick="auroraAccent('')"></span>
+: <span class="tft-accent"><input type="color" id="tft-accent-pick" aria-label="_(Pick the accent colour)_" value="<?= htmlspecialchars(preg_match('/^#[0-9a-fA-F]{6}$/', $aurora['accent'] ?? '') ? $aurora['accent'] : '#60cdff') ?>"><input type="text" name="accent" id="tft-accent" maxlength="7" placeholder="_(Windows blue)_" pattern="#?([0-9a-fA-F]{3}|[0-9a-fA-F]{6})" title="_(Colour code such as #60cdff; empty for the Windows blue)_" value="<?= htmlspecialchars($aurora['accent'] ?? '') ?>"><input type="button" value="_(Default)_" onclick="auroraAccent('')"></span>
 
 > The colour of highlights: the active menu entry, buttons, links, switches and bars. Pick one or
-> type its code (such as `#e11d48`); **Default** goes back to the theme's blue. Lighter shades and
+> type its code (such as `#e11d48`); **Default** goes back to the Windows 11 blue. Lighter shades and
 > the text on buttons are worked out from it.
 
 <script>
@@ -45,13 +45,34 @@ document.getElementById('tft-accent').addEventListener('input', function () {
 
 _(Fonts)_:
 : <select name="font">
-  <?=mk_option($aurora['font'] ?? 'aurora', "aurora", _("Aurora: Inter and Space Grotesk"))?>
-  <?=mk_option($aurora['font'] ?? 'aurora', "unraid", _("Unraid default: Clear Sans"))?>
+  <?=mk_option($aurora['font'] ?? 'fluent', "fluent", _("Fluent: Segoe UI Variable"))?>
+  <?=mk_option($aurora['font'] ?? 'fluent', "aurora", _("Aurora: Inter and Space Grotesk"))?>
+  <?=mk_option($aurora['font'] ?? 'fluent', "unraid", _("Unraid default: Clear Sans"))?>
   </select>
 
-> **Aurora** uses Inter for text and Space Grotesk for headings, bundled with the plugin. **Unraid
-> default** keeps Unraid's own fonts, Clear Sans for text and headings and Bitstream for code, with
-> everything else of the theme. The login page always uses the Aurora fonts.
+> **Fluent** uses Windows 11's own Segoe UI Variable; on computers without it (macOS, Linux, phones)
+> the bundled Inter takes its place. **Aurora** uses Inter for text and Space Grotesk for headings.
+> **Unraid default** keeps Unraid's own fonts, Clear Sans for text and headings and Bitstream for
+> code, with everything else of the theme. The login page always uses the bundled fonts.
+
+_(Animations)_:
+: <select name="motion">
+  <?=mk_option($aurora['motion'] ?? 'on', "on", _("On"))?>
+  <?=mk_option($aurora['motion'] ?? 'on', "off", _("Off"))?>
+  </select>
+
+> Page transitions, the sliding selection in the menu, cards rising in, menus and dialogs opening.
+> **Off** makes every change instant. Browsers set to reduce motion get no animations either way.
+> Smooth page transitions need Chrome or Edge 126+, or Safari 18.2+; other browsers load pages as before.
+
+_(Transparency effects)_:
+: <select name="transparency">
+  <?=mk_option($aurora['transparency'] ?? 'on', "on", _("On"))?>
+  <?=mk_option($aurora['transparency'] ?? 'on', "off", _("Off"))?>
+  </select>
+
+> Mica behind the page and frosted acrylic menus, dialogs and footer, as in Windows 11. **Off** uses
+> solid surfaces, which is lighter on old graphics cards and remote desktop sessions.
 
 _(Navigation layout)_:
 : <select name="layout">
@@ -114,7 +135,7 @@ auroraSchedule();
 </form>
 
 <?php
-// "Update": the plugin is updated from its GitHub releases (include/UpdateLib.php).
+// "Update": the plugin is updated from the "release" branch of its GitHub repository (include/UpdateLib.php).
 require_once '/usr/local/emhttp/plugins/Aurora-Theme/include/UpdateLib.php';
 $auroraInstalled = aurora_installed_version();
 // Outcome of the last automatic check (scripts/autoupdate.php); kept in RAM, so empty after a reboot.
@@ -132,7 +153,7 @@ $auroraRepo = '@@GITHUB_REPO@@';
 <div class="tft-update-icon"><i class="fa fa-github" id="tft-update-icon"></i></div>
 <div class="tft-update-text">
 <strong id="tft-update-title">Version <?= htmlspecialchars($auroraInstalled ?: 'unknown') ?></strong>
-<span id="tft-update-message">Updates come from the plugin's releases on GitHub. Use "Check for updates" to look for a newer one now.</span>
+<span id="tft-update-message">Updates come from the plugin's GitHub repository. Use "Check for updates" to look for a newer one now.</span>
 <span class="tft-auto-status<?= ($auroraAuto['result'] ?? '') === 'failed' ? ' tft-auto-failed' : '' ?>"><i class="fa <?= $auroraAutoOn ? 'fa-refresh' : 'fa-pause-circle' ?>"></i> <?php
 if (!$auroraAutoOn) {
     echo 'Automatic updates are off.';
@@ -141,7 +162,7 @@ if (!$auroraAutoOn) {
     if (!empty($auroraAuto['time'])) echo ' Last check ' . htmlspecialchars(date('j M, H:i', (int) $auroraAuto['time'])) . ': ' . htmlspecialchars((string) $auroraAuto['message']);
 }
 ?></span>
-<a class="tft-link" href="https://github.com/<?= htmlspecialchars($auroraRepo) ?>/releases" target="_blank" rel="noopener noreferrer"><i class="fa fa-external-link"></i> Release notes on GitHub</a>
+<a class="tft-link" href="https://github.com/<?= htmlspecialchars($auroraRepo) ?>/commits/release" target="_blank" rel="noopener noreferrer"><i class="fa fa-external-link"></i> Release history on GitHub</a>
 </div>
 <div class="tft-update-actions">
 <button type="button" class="tft-button" id="tft-check-button" onclick="auroraCheck(this)"><i class="fa fa-search"></i> Check for updates</button>

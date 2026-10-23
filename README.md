@@ -1,3 +1,41 @@
+# Aurora Theme for Unraid — Fluent edition
+
+A rework of [Aurora Theme](https://github.com/Tunefish92/Aurora-Theme) by **[Tunefish](https://github.com/Tunefish92)** in the style of Microsoft's Fluent design (Windows 11). All the credit for the original theme, its page enhancements, Docker groups, Stats page and everything else goes to Tunefish; this edition, reworked by **[leppermesiah](https://github.com/leppermesiah)**, changes how it looks, moves and is navigated.
+
+![Settings in the Fluent edition: grouped sidebar with a search box, settings as cards with descriptions](docs/screenshots/fluent-settings.png)
+
+| Dashboard | Command palette (Ctrl+K) |
+| --- | --- |
+| ![Dashboard on the Mica background](docs/screenshots/fluent-dashboard.png) | ![Command palette searching for "disk"](docs/screenshots/fluent-palette.png) |
+
+| Settings page as Windows 11 setting rows | Light theme |
+| --- | --- |
+| ![Display Settings as a card of rows with the controls on the right](docs/screenshots/fluent-form.png) | ![Settings with the light palette](docs/screenshots/fluent-light.png) |
+
+### What the Fluent edition changes
+
+- **Look**: Windows 11 colours and greys, the Windows accent blue, Segoe UI Variable (the bundled Inter where Segoe is not installed), 4px controls and 8px cards, a Mica window background, frosted acrylic menus, drop-down lists, dialogs, tooltips and footer.
+- **Controls**: Fluent buttons with an accent "Apply", text boxes whose bottom line turns into an accent line while typing, Fluent toggle switches whose knob grows and stretches, tabs as a selector bar with an accent pill.
+- **Motion**: pages slide in with view transitions (Chrome / Edge 126+, Safari 18.2+) while the menu stays put, the selection pill in the menu slides to the tab you pick, cards rise in one after another, menus drop in and dialogs settle into place. Everything uses Fluent's decelerating curves, and the system's "reduce motion" setting is respected.
+- **Navigation**: the menu in groups (Overview, Storage, Apps & VMs, System), a "Find a setting" box above it, and the quick actions trimmed to the ones used most.
+- **Command palette** (`Ctrl+K` or `⌘K`): search every page, every Settings and Tools page (plugins included) and every quick action from anywhere. Type `>` for actions only; `Ctrl+Enter` opens a page in a new tab.
+- **Settings and Tools**: cards as Windows 11 setting cards with a one-line description of what is behind them; settings pages as cards of rows, the setting on the left and its control on the right; titles of sub-pages as a breadcrumb back to their tab.
+- **Settings page**: new "Animations" and "Transparency effects" switches, and the font choice Fluent / Aurora / Unraid.
+
+### Install the Fluent edition
+
+In Unraid, go to **Plugins → Install Plugin**, paste this address and click **Install**:
+
+```
+https://raw.githubusercontent.com/leppermesiah/Aurora-Theme/release/Aurora-Theme.plg
+```
+
+It installs as `Aurora-Theme`, so it takes the place of the original plugin if that one is installed (settings, Docker groups and favourites are kept). Updates come from this repository's `release` branch.
+
+---
+
+*The original README by Tunefish follows.*
+
 # Aurora Theme for Unraid
 
 [![Buy me a coffee](https://img.shields.io/badge/Buy_me_a_coffee-PayPal-0070ba?style=for-the-badge&logo=paypal&logoColor=white)](https://paypal.me/tunefish92)
