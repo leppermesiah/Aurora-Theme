@@ -1115,12 +1115,41 @@
     :root.tp-sidebar.Theme--nav-top:is(.Theme--black, .Theme--white) {
         --tp-sidebar-line: transparent;
 
+        /* The menu fills the window height: the search box stays at the top, the quick actions
+           and array widget stay pinned at the bottom, and only the list of tabs between them
+           scrolls when the window is short (1080p at 125% scaling leaves about 750px). */
         #menu {
             gap: 0.4rem;
             padding-top: 11.2rem;
+            padding-bottom: 1.2rem;
+            overflow: hidden;
             border-right: 0;
             background: transparent;
             view-transition-name: fl-menu;
+        }
+
+        #menu > * {
+            flex: none;
+        }
+
+        #menu > .nav-tile:not(.right) {
+            flex: 0 1 auto;
+            min-height: 0;
+            margin-right: -0.6rem;
+            padding-right: 0.6rem;
+            overflow-x: hidden;
+            overflow-y: auto;
+            scrollbar-width: thin;
+            overscroll-behavior: contain;
+        }
+
+        #menu > .nav-tile.right {
+            margin-top: auto;
+        }
+
+        /* The server's name is already at the start of the top bar. */
+        #menu .tp-server {
+            display: none;
         }
 
         #header {
@@ -1153,7 +1182,7 @@
         }
 
         .nav-tile:not(.right) .nav-item a {
-            min-height: 3.6rem;
+            min-height: 3.4rem;
             padding: 0 1.2rem;
             border-radius: var(--tp-r-control);
             color: var(--tp-text);
@@ -1193,7 +1222,7 @@
 
         #menu .fl-nav-header {
             display: block;
-            padding: 1.4rem 1.2rem 0.4rem;
+            padding: 1rem 1.2rem 0.2rem;
             color: var(--tp-muted);
             font: 600 1.2rem/1.6rem var(--tp-font-body);
         }
@@ -1202,9 +1231,6 @@
             padding-top: 0.4rem;
         }
 
-        .tp-server {
-            margin-bottom: 0.4rem;
-        }
 
         /* Find-a-setting box above the menu, like the Settings app. */
         .fl-search-launch {
@@ -1280,6 +1306,35 @@
 
         .nav-tile.right .nav-item a:active {
             background-color: var(--fl-subtle-pressed);
+        }
+    }
+
+    /* Short windows: tighter rows, so the whole menu still fits without scrolling. */
+    @media (max-height: 820px) {
+        :root.tp-sidebar.Theme--nav-top:is(.Theme--black, .Theme--white) {
+            #menu {
+                padding-top: 10rem;
+            }
+
+            .nav-tile:not(.right) .nav-item a {
+                min-height: 3rem;
+            }
+
+            #menu .fl-nav-header {
+                padding-top: 0.6rem;
+            }
+
+            .fl-search-launch {
+                margin-bottom: 0.2rem;
+            }
+
+            .nav-tile.right {
+                padding: 0.6rem;
+            }
+
+            .nav-tile.right:before {
+                display: none;
+            }
         }
     }
 
