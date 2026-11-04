@@ -8,7 +8,7 @@
     margin: 1.4rem 0 2.4rem;
     padding: 1.8rem 2rem;
     border: 1px solid var(--tp-border, var(--border-color));
-    border-radius: 18px;
+    border-radius: var(--tp-r-md, 8px);
     background-color: var(--tp-elevated, var(--mild-background-color));
 }
 
@@ -93,7 +93,7 @@ button.tft-button {
     margin: 0;
     padding: 1rem 2rem;
     border: 1px solid var(--tp-input-border, var(--border-color));
-    border-radius: 999px;
+    border-radius: var(--tp-r-control, 4px);
     color: var(--text-color);
     font: 600 1.3rem var(--tp-font-heading, inherit);
     letter-spacing: 0;
@@ -132,7 +132,7 @@ button.tft-button:disabled {
     margin: 1.4rem 0 2.4rem;
     padding: 2rem;
     border: 1px solid var(--tp-border, var(--border-color));
-    border-radius: 18px;
+    border-radius: var(--tp-r-md, 8px);
     background-color: var(--tp-elevated, var(--mild-background-color));
 }
 
@@ -151,7 +151,7 @@ button.tft-button:disabled {
     gap: 0.2rem;
     padding: 0.3rem;
     border: 1px solid var(--tp-border, var(--border-color));
-    border-radius: 999px;
+    border-radius: var(--tp-r-control, 4px);
     background-color: var(--tp-subtle, var(--background-color));
 }
 
@@ -160,7 +160,7 @@ button.tft-segment-option {
     margin: 0;
     padding: 0.6rem 1.4rem;
     border: 0;
-    border-radius: 999px;
+    border-radius: var(--tp-r-control, 4px);
     color: var(--tp-muted, var(--alt-text-color));
     font: 500 1.25rem var(--tp-font-heading, inherit);
     letter-spacing: 0;
@@ -242,11 +242,11 @@ button.tft-segment-option[aria-checked="true"] {
         display: grid;
         grid-template-columns: repeat(2, minmax(0, 1fr));
         align-self: stretch;
-        border-radius: 1.4rem;
+        border-radius: var(--tp-r-md, 8px);
     }
 
     button.tft-segment-option {
-        border-radius: 1rem;
+        border-radius: var(--tp-r-md, 8px);
     }
 }
 
@@ -281,7 +281,7 @@ button.tft-link-button:hover {
     margin: -1.2rem 0 2.4rem;
     padding: 1.8rem 2rem;
     border: 1px solid var(--tp-border, var(--border-color));
-    border-radius: 18px;
+    border-radius: var(--tp-r-md, 8px);
     background-color: var(--tp-elevated, var(--mild-background-color));
 }
 
@@ -367,7 +367,7 @@ button.tft-link-button:hover {
     margin: 0;
     padding: 0.3rem;
     border: 1px solid var(--tp-input-border, var(--border-color));
-    border-radius: 8px;
+    border-radius: var(--tp-r-sm, 4px);
     background: transparent;
     cursor: pointer;
 }

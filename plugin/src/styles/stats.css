@@ -25,7 +25,7 @@
     min-width: 0;
     padding: 1.7rem 2rem 1.2rem;
     border: 1px solid var(--tfs-border);
-    border-radius: 18px;
+    border-radius: var(--tp-r-md, 8px);
     background-color: var(--tfs-surface);
     box-shadow: var(--tp-shadow-sm, none);
 }
@@ -107,7 +107,7 @@
     z-index: 2;
     padding: 0.7rem 1rem;
     border: 1px solid var(--tfs-border);
-    border-radius: 8px;
+    border-radius: var(--tp-r-sm, 4px);
     font-size: 1.1rem;
     white-space: nowrap;
     pointer-events: none;

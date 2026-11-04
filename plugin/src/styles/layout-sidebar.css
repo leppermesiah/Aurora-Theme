@@ -149,7 +149,7 @@
             margin: 0 1.6rem 0 0;
             padding: 0;
             border: 1px solid var(--tp-border, var(--border-color));
-            border-radius: 10px;
+            border-radius: var(--tp-r-md, 8px);
             color: var(--tp-muted, var(--alt-text-color));
             background: var(--tp-elevated, transparent);
             box-shadow: none;
@@ -345,7 +345,7 @@
             gap: 1.1rem;
             min-height: 3.6rem;
             padding: 0 1.1rem;
-            border-radius: 8px;
+            border-radius: var(--tp-r-sm, 4px);
         }
 
         .nav-tile:not(.right) .nav-item:hover a {
@@ -414,7 +414,7 @@
             margin-top: auto;
             padding: 1.2rem;
             border: 1px solid rgba(255, 255, 255, 0.12);
-            border-radius: 12px;
+            border-radius: var(--tp-r-md, 8px);
             background-color: rgba(255, 255, 255, 0.05);
         }
 
@@ -455,7 +455,7 @@
             aspect-ratio: 1;
             padding: 0;
             border: 1px solid rgba(255, 255, 255, 0.06);
-            border-radius: 10px;
+            border-radius: var(--tp-r-md, 8px);
             color: var(--tp-header-muted, #a7b0c0);
             font-size: 1.5rem;
             line-height: 1;

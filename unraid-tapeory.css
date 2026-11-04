@@ -149,97 +149,162 @@
  */
 
 /* ==========================================================================
-   Tokens — Tapeory palette
+   Tokens — Fluent palette (Fluent edition)
+   Neutrals, accents, radii, elevation and motion follow Microsoft's Fluent 2 / Windows 11
+   design language: a Mica-like base, layered cards, 4px controls and 8px surfaces, quiet
+   strokes, and decelerating motion. Everything else in the theme reads these tokens.
    ========================================================================== */
 :root.Theme--white {
-    --tp-bg: #f5f6f8;
+    --tp-bg: #f3f3f3;
     --tp-elevated: #ffffff;
-    --tp-subtle: #eef0f4;
-    --tp-text: #14181f;
-    --tp-muted: #62697a;
-    --tp-border: #e4e7ec;
-    --tp-input-border: #d7dbe3;
-    --tp-primary: #2563eb;
-    --tp-primary-ii: #06b6d4;
-    --tp-primary-soft: rgba(37, 99, 235, 0.1);
+    --tp-subtle: #f5f5f5;
+    --tp-text: #1b1b1b;
+    --tp-muted: #5d5d5d;
+    --tp-border: #e5e5e5;
+    --tp-input-border: #d1d1d1;
+    --tp-primary: #005fb8;
+    --tp-primary-ii: #0078d4;
+    --tp-primary-soft: rgba(0, 95, 184, 0.09);
     --tp-tab-active: #ffffff;
     --tp-primary-text: #ffffff;
-    --tp-header-bg: var(--tp-custom-header-bg, #12161f);
-    --tp-header-text: var(--tp-custom-header-text, #ffffff);
-    --tp-header-muted: var(--tp-custom-header-muted, #a7b0c0);
-    --tp-shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.06);
-    --tp-shadow-lg: 0 24px 56px -22px rgba(15, 23, 42, 0.3);
+    --tp-header-bg: var(--tp-custom-header-bg, #eeeeee);
+    --tp-header-text: var(--tp-custom-header-text, #1b1b1b);
+    --tp-header-muted: var(--tp-custom-header-muted, #5d5d5d);
+    --tp-shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.04), 0 0 2px rgba(0, 0, 0, 0.06);
+    --tp-shadow-lg: 0 32px 64px rgba(0, 0, 0, 0.1876), 0 2px 21px rgba(0, 0, 0, 0.1474);
+
+    /* Fluent-only layers: translucent fills that let the Mica base show through. */
+    --fl-mica: #f3f3f3;
+    --fl-mica-tint: color-mix(in srgb, var(--tp-primary) 7%, transparent);
+    --fl-layer: rgba(255, 255, 255, 0.5);
+    --fl-card: rgba(255, 255, 255, 0.7);
+    --fl-card-hover: rgba(249, 249, 249, 0.5);
+    --fl-control: rgba(255, 255, 255, 0.7);
+    --fl-control-hover: rgba(249, 249, 249, 0.5);
+    --fl-control-pressed: rgba(249, 249, 249, 0.3);
+    --fl-subtle-hover: rgba(0, 0, 0, 0.037);
+    --fl-subtle-pressed: rgba(0, 0, 0, 0.024);
+    --fl-stroke: rgba(0, 0, 0, 0.0578);
+    --fl-stroke-card: rgba(0, 0, 0, 0.0578);
+    --fl-stroke-control: rgba(0, 0, 0, 0.0578);
+    --fl-stroke-control-bottom: rgba(0, 0, 0, 0.1622);
+    --fl-stroke-input-bottom: rgba(0, 0, 0, 0.4458);
+    --fl-acrylic: rgba(252, 252, 252, 0.85);
+    --fl-acrylic-strong: rgba(249, 249, 249, 0.94);
+    --fl-smoke: rgba(0, 0, 0, 0.3);
+    --fl-shadow-card: 0 2px 4px rgba(0, 0, 0, 0.04), 0 0 2px rgba(0, 0, 0, 0.06);
+    --fl-shadow-flyout: 0 8px 16px rgba(0, 0, 0, 0.14), 0 0 2px rgba(0, 0, 0, 0.12);
+    --fl-shadow-dialog: var(--tp-shadow-lg);
+    --fl-focus-outer: #000000;
+    --fl-focus-inner: #ffffff;
+    --fl-noise-opacity: 0.02;
+
+    --tp-success-bg: #dff6dd;
+    --tp-success-text: #0f7b0f;
+    --tp-danger: #c42b1c;
+    --tp-danger-soft: rgba(196, 43, 28, 0.08);
+    --tp-warn-bg: #fff4ce;
+    --tp-warn-text: #9d5d00;
+    --tp-neutral-bg: #ebebeb;
+    --tp-neutral-text: #3b3b3b;
+
+    --tp-chevron: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%235d5d5d' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
 
     /* The same palette as "H S% L%" triplets, the form Unraid's newer components expect. */
-    --tp-success-bg: #dcfce7;
-    --tp-success-text: #166534;
-    --tp-danger: #dc2626;
-    --tp-danger-soft: rgba(220, 38, 38, 0.08);
-    --tp-warn-bg: #fef3c7;
-    --tp-warn-text: #b45309;
-    --tp-neutral-bg: #e5e7eb;
-    --tp-neutral-text: #374151;
-
-    --tp-chevron: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2362697a' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
-
     --tp-hsl-surface: 0 0% 100%;
-    --tp-hsl-text: 218 22% 10%;
-    --tp-hsl-subtle: 220 21% 95%;
-    --tp-hsl-muted: 223 11% 43%;
-    --tp-hsl-border: 218 17% 91%;
-    --tp-hsl-input: 220 18% 87%;
-    --tp-hsl-primary: 221 83% 53%;
+    --tp-hsl-text: 0 0% 11%;
+    --tp-hsl-subtle: 0 0% 96%;
+    --tp-hsl-muted: 0 0% 36%;
+    --tp-hsl-border: 0 0% 90%;
+    --tp-hsl-input: 0 0% 82%;
+    --tp-hsl-primary: 209 100% 36%;
     --tp-hsl-primary-text: 0 0% 100%;
 }
 
 :root.Theme--black {
-    --tp-bg: #0a0c11;
-    --tp-elevated: #12151d;
-    --tp-subtle: #161a23;
-    --tp-text: #e7eaf0;
-    --tp-muted: #8b93a5;
-    --tp-border: #232833;
-    --tp-input-border: #2c323f;
-    --tp-primary: #4f8bff;
-    --tp-primary-ii: #22d3ee;
-    --tp-primary-soft: rgba(79, 139, 255, 0.16);
-    --tp-tab-active: #232a39;
-    --tp-primary-text: #06101f;
-    --tp-header-bg: var(--tp-custom-header-bg, #05070a);
-    --tp-header-text: var(--tp-custom-header-text, #f3f4f6);
-    --tp-header-muted: var(--tp-custom-header-muted, #93a0b8);
-    --tp-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.45);
-    --tp-shadow-lg: 0 32px 70px -26px rgba(0, 0, 0, 0.72);
+    --tp-bg: #1c1c1c;
+    --tp-elevated: #2b2b2b;
+    --tp-subtle: #323232;
+    --tp-text: #ffffff;
+    --tp-muted: #ababab;
+    --tp-border: #3a3a3a;
+    --tp-input-border: #474747;
+    --tp-primary: #60cdff;
+    --tp-primary-ii: #99ebff;
+    --tp-primary-soft: rgba(96, 205, 255, 0.14);
+    --tp-tab-active: #3a3a3a;
+    --tp-primary-text: #000000;
+    --tp-header-bg: var(--tp-custom-header-bg, #202020);
+    --tp-header-text: var(--tp-custom-header-text, #ffffff);
+    --tp-header-muted: var(--tp-custom-header-muted, #ababab);
+    --tp-shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.26), 0 0 2px rgba(0, 0, 0, 0.2);
+    --tp-shadow-lg: 0 32px 64px rgba(0, 0, 0, 0.56), 0 2px 21px rgba(0, 0, 0, 0.55);
 
-    --tp-success-bg: #12301f;
-    --tp-success-text: #86efac;
-    --tp-danger: #f87171;
-    --tp-danger-soft: rgba(248, 113, 113, 0.12);
-    --tp-warn-bg: #3a2a0c;
-    --tp-warn-text: #fbbf24;
-    --tp-neutral-bg: #232833;
-    --tp-neutral-text: #c3c9d6;
+    --fl-mica: #1c1c1c;
+    --fl-mica-tint: color-mix(in srgb, var(--tp-primary) 9%, transparent);
+    --fl-layer: rgba(58, 58, 58, 0.3);
+    --fl-card: rgba(255, 255, 255, 0.0512);
+    --fl-card-hover: rgba(255, 255, 255, 0.0837);
+    --fl-control: rgba(255, 255, 255, 0.0605);
+    --fl-control-hover: rgba(255, 255, 255, 0.0837);
+    --fl-control-pressed: rgba(255, 255, 255, 0.0326);
+    --fl-subtle-hover: rgba(255, 255, 255, 0.0605);
+    --fl-subtle-pressed: rgba(255, 255, 255, 0.0419);
+    --fl-stroke: rgba(255, 255, 255, 0.0837);
+    --fl-stroke-card: rgba(255, 255, 255, 0.0698);
+    --fl-stroke-control: rgba(255, 255, 255, 0.0698);
+    --fl-stroke-control-bottom: rgba(255, 255, 255, 0.0465);
+    --fl-stroke-input-bottom: rgba(255, 255, 255, 0.5442);
+    --fl-acrylic: rgba(44, 44, 44, 0.8);
+    --fl-acrylic-strong: rgba(40, 40, 40, 0.94);
+    --fl-smoke: rgba(0, 0, 0, 0.5);
+    --fl-shadow-card: 0 2px 4px rgba(0, 0, 0, 0.26), 0 0 2px rgba(0, 0, 0, 0.2);
+    --fl-shadow-flyout: 0 8px 16px rgba(0, 0, 0, 0.26), 0 0 2px rgba(0, 0, 0, 0.2);
+    --fl-shadow-dialog: var(--tp-shadow-lg);
+    --fl-focus-outer: #ffffff;
+    --fl-focus-inner: #000000;
+    --fl-noise-opacity: 0.03;
 
-    --tp-chevron: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238b93a5' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+    --tp-success-bg: #393d1b;
+    --tp-success-text: #6ccb5f;
+    --tp-danger: #ff99a4;
+    --tp-danger-soft: rgba(255, 153, 164, 0.12);
+    --tp-warn-bg: #433519;
+    --tp-warn-text: #fce100;
+    --tp-neutral-bg: #3a3a3a;
+    --tp-neutral-text: #d0d0d0;
 
-    --tp-hsl-surface: 224 23% 9%;
-    --tp-hsl-text: 220 23% 92%;
-    --tp-hsl-subtle: 222 23% 11%;
-    --tp-hsl-muted: 222 13% 60%;
-    --tp-hsl-border: 221 19% 17%;
-    --tp-hsl-input: 221 18% 21%;
-    --tp-hsl-primary: 220 100% 65%;
-    --tp-hsl-primary-text: 216 68% 7%;
+    --tp-chevron: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ababab' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+
+    --tp-hsl-surface: 0 0% 17%;
+    --tp-hsl-text: 0 0% 100%;
+    --tp-hsl-subtle: 0 0% 20%;
+    --tp-hsl-muted: 0 0% 67%;
+    --tp-hsl-border: 0 0% 23%;
+    --tp-hsl-input: 0 0% 28%;
+    --tp-hsl-primary: 199 100% 69%;
+    --tp-hsl-primary-text: 0 0% 0%;
 }
 
 :root:is(.Theme--black, .Theme--white) {
-    --tp-font-body: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
-    --tp-font-heading: "Space Grotesk", var(--tp-font-body);
-    --tp-gradient: linear-gradient(135deg, var(--tp-primary), var(--tp-primary-ii));
-    --tp-r-sm: 8px;
-    --tp-r-md: 12px;
+    /* Segoe UI Variable is Windows 11's own type; elsewhere the bundled Inter stands in. */
+    --tp-font-body: "Segoe UI Variable Text", "Segoe UI Variable", "Segoe UI", "Inter", system-ui, -apple-system, sans-serif;
+    --tp-font-heading: "Segoe UI Variable Display", "Segoe UI Variable", "Segoe UI", "Inter", system-ui, -apple-system, sans-serif;
+    --tp-gradient: linear-gradient(var(--tp-primary), var(--tp-primary));
+    --tp-r-sm: 4px;
+    --tp-r-md: 8px;
+    --tp-r-control: 4px;
     --tp-r-full: 999px;
-    --tp-ease: cubic-bezier(0.16, 1, 0.3, 1);
+    /* Fluent motion: "decelerate" for things arriving, "accelerate" for things leaving,
+       "point to point" for things moving across the screen. */
+    --tp-ease: cubic-bezier(0, 0, 0, 1);
+    --fl-ease-decel: cubic-bezier(0.1, 0.9, 0.2, 1);
+    --fl-ease-accel: cubic-bezier(0.7, 0, 1, 0.5);
+    --fl-ease-point: cubic-bezier(0.55, 0.55, 0, 1);
+    --fl-dur-fast: 167ms;
+    --fl-dur-normal: 250ms;
+    --fl-dur-slow: 333ms;
+    --fl-dur-page: 500ms;
 
     /* ---- Unraid's own variables (see black.css / white.css), pointed at the tokens above */
     --font-sans: var(--tp-font-body);
@@ -406,40 +471,40 @@
         --color-orange-dark: var(--tp-primary);
         --color-unraid-red: #dc2626;
 
-        /* Accent and neutral colour scales: blue and slate instead of orange / green and grey */
-        --color-primary-50: #eff6ff;
-        --color-primary-100: #dbeafe;
-        --color-primary-200: #bfdbfe;
-        --color-primary-300: #93c5fd;
-        --color-primary-400: #60a5fa;
-        --color-primary-500: #3b82f6;
-        --color-primary-600: #2563eb;
-        --color-primary-700: #1d4ed8;
-        --color-primary-800: #1e40af;
-        --color-primary-900: #1e3a8a;
-        --color-primary-950: #172554;
-        --ui-color-primary-50: #eff6ff;
-        --ui-color-primary-100: #dbeafe;
-        --ui-color-primary-200: #bfdbfe;
-        --ui-color-primary-300: #93c5fd;
-        --ui-color-primary-400: #60a5fa;
-        --ui-color-primary-500: #3b82f6;
-        --ui-color-primary-600: #2563eb;
-        --ui-color-primary-700: #1d4ed8;
-        --ui-color-primary-800: #1e40af;
-        --ui-color-primary-900: #1e3a8a;
-        --ui-color-primary-950: #172554;
-        --ui-color-neutral-50: #f6f7f9;
-        --ui-color-neutral-100: #eef0f4;
-        --ui-color-neutral-200: #e4e7ec;
-        --ui-color-neutral-300: #d7dbe3;
-        --ui-color-neutral-400: #a7b0c0;
-        --ui-color-neutral-500: #8b93a5;
-        --ui-color-neutral-600: #62697a;
-        --ui-color-neutral-700: #2c323f;
-        --ui-color-neutral-800: #1b202a;
-        --ui-color-neutral-900: #12151d;
-        --ui-color-neutral-950: #0a0c11;
+        /* Accent scale mixed from the accent colour; neutrals are Fluent's greys */
+        --color-primary-50: color-mix(in oklab, var(--tp-primary), white 92%);
+        --color-primary-100: color-mix(in oklab, var(--tp-primary), white 84%);
+        --color-primary-200: color-mix(in oklab, var(--tp-primary), white 68%);
+        --color-primary-300: color-mix(in oklab, var(--tp-primary), white 48%);
+        --color-primary-400: color-mix(in oklab, var(--tp-primary), white 24%);
+        --color-primary-500: color-mix(in oklab, var(--tp-primary), white 6%);
+        --color-primary-600: color-mix(in oklab, var(--tp-primary), black 8%);
+        --color-primary-700: color-mix(in oklab, var(--tp-primary), black 24%);
+        --color-primary-800: color-mix(in oklab, var(--tp-primary), black 40%);
+        --color-primary-900: color-mix(in oklab, var(--tp-primary), black 54%);
+        --color-primary-950: color-mix(in oklab, var(--tp-primary), black 70%);
+        --ui-color-primary-50: color-mix(in oklab, var(--tp-primary), white 92%);
+        --ui-color-primary-100: color-mix(in oklab, var(--tp-primary), white 84%);
+        --ui-color-primary-200: color-mix(in oklab, var(--tp-primary), white 68%);
+        --ui-color-primary-300: color-mix(in oklab, var(--tp-primary), white 48%);
+        --ui-color-primary-400: color-mix(in oklab, var(--tp-primary), white 24%);
+        --ui-color-primary-500: color-mix(in oklab, var(--tp-primary), white 6%);
+        --ui-color-primary-600: color-mix(in oklab, var(--tp-primary), black 8%);
+        --ui-color-primary-700: color-mix(in oklab, var(--tp-primary), black 24%);
+        --ui-color-primary-800: color-mix(in oklab, var(--tp-primary), black 40%);
+        --ui-color-primary-900: color-mix(in oklab, var(--tp-primary), black 54%);
+        --ui-color-primary-950: color-mix(in oklab, var(--tp-primary), black 70%);
+        --ui-color-neutral-50: #f9f9f9;
+        --ui-color-neutral-100: #f3f3f3;
+        --ui-color-neutral-200: #e5e5e5;
+        --ui-color-neutral-300: #d1d1d1;
+        --ui-color-neutral-400: #ababab;
+        --ui-color-neutral-500: #8a8a8a;
+        --ui-color-neutral-600: #5d5d5d;
+        --ui-color-neutral-700: #474747;
+        --ui-color-neutral-800: #2b2b2b;
+        --ui-color-neutral-900: #202020;
+        --ui-color-neutral-950: #1c1c1c;
     }
 
     /* Unraid's brand buttons draw a red-to-orange gradient border or fill; here it is the
@@ -492,7 +557,7 @@
     .nav-item a {
         font-weight: 500;
         text-transform: none;
-        transition: color 0.35s var(--tp-ease);
+        transition: color var(--fl-dur-normal) var(--tp-ease);
     }
 
     .nav-user a {
@@ -518,7 +583,7 @@
         background: linear-gradient(90deg, var(--tp-primary), var(--tp-primary-ii));
         transform: translateY(8px) scaleX(0);
         transform-origin: left;
-        transition: transform 0.35s var(--tp-ease);
+        transition: transform var(--fl-dur-normal) var(--tp-ease);
     }
 
     .nav-item:focus:after,
@@ -619,7 +684,7 @@
         /* Colours set here as well, not only through Unraid's variables: some pages bring their
            own button styles (the Docker install output's log.htm), which would otherwise win. */
         border: var(--button-border);
-        border-radius: var(--tp-r-full);
+        border-radius: var(--tp-r-control);
         color: var(--button-text-color);
         background: var(--button-background);
         background-size: auto;
@@ -628,8 +693,8 @@
         font-weight: 600;
         letter-spacing: 0;
         text-transform: none;
-        transition: transform 0.35s var(--tp-ease), box-shadow 0.35s var(--tp-ease),
-            border-color 0.35s var(--tp-ease), color 0.35s var(--tp-ease);
+        transition: transform var(--fl-dur-normal) var(--tp-ease), box-shadow var(--fl-dur-normal) var(--tp-ease),
+            border-color var(--fl-dur-normal) var(--tp-ease), color var(--fl-dur-normal) var(--tp-ease);
     }
 
     input:hover[type="button"]:where(:not(.unapi *, [disabled])),
@@ -669,7 +734,7 @@
         padding: 0.5rem;
         overflow-x: auto;
         border: 1px solid var(--tp-border);
-        border-radius: 16px;
+        border-radius: var(--tp-r-md);
         background-color: var(--tp-subtle);
         box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.12);
         scrollbar-width: thin;
@@ -681,14 +746,14 @@
         min-height: 4rem;
         padding: 0.9rem 1.8rem;
         border: 1px solid transparent;
-        border-radius: 11px;
+        border-radius: var(--tp-r-md);
         color: var(--tp-muted);
         font: 500 1.35rem/1 var(--tp-font-heading);
         letter-spacing: 0;
         white-space: nowrap;
         background: transparent;
         opacity: 1;
-        transition: color 0.3s var(--tp-ease), background-color 0.3s var(--tp-ease), border-color 0.3s var(--tp-ease), box-shadow 0.3s var(--tp-ease);
+        transition: color var(--fl-dur-normal) var(--tp-ease), background-color var(--fl-dur-normal) var(--tp-ease), border-color var(--fl-dur-normal) var(--tp-ease), box-shadow var(--fl-dur-normal) var(--tp-ease);
     }
 
     /* The label's span ends up display:block from a .left rule, which dropped the gap between
@@ -704,14 +769,14 @@
         margin: 0;
         color: inherit;
         font-size: 1.4rem;
-        transition: color 0.3s var(--tp-ease);
+        transition: color var(--fl-dur-normal) var(--tp-ease);
     }
 
     .tabs button[role="tab"] img.icon {
         margin: 0;
         opacity: 0.75;
         filter: grayscale(0.4);
-        transition: opacity 0.3s var(--tp-ease), filter 0.3s var(--tp-ease);
+        transition: opacity var(--fl-dur-normal) var(--tp-ease), filter var(--fl-dur-normal) var(--tp-ease);
     }
 
     .tabs button[role="tab"]:hover {
@@ -746,7 +811,7 @@
         bottom: 0.35rem;
         left: 35%;
         height: 2px;
-        border-radius: 999px;
+        border-radius: var(--tp-r-control);
         background: var(--tp-gradient);
         content: "";
     }
@@ -790,11 +855,11 @@
     select:where(:not(.unapi *)) {
         box-sizing: border-box;
         border: 1px solid var(--tp-input-border);
-        border-radius: 10px;
+        border-radius: var(--tp-r-md);
         color: var(--tp-text);
         font-family: var(--tp-font-body);
         background-color: var(--tp-elevated);
-        transition: border-color 0.35s var(--tp-ease), box-shadow 0.35s var(--tp-ease);
+        transition: border-color var(--fl-dur-normal) var(--tp-ease), box-shadow var(--fl-dur-normal) var(--tp-ease);
     }
 
     /* Unraid colours placeholders like links; here they are quiet hints. */
@@ -830,7 +895,7 @@
     select:where(:not(.unapi *)) {
         min-height: 3.6rem;
         padding: 0.7rem 3.6rem 0.7rem 1.2rem;
-        border-radius: 10px;
+        border-radius: var(--tp-r-md);
         color: var(--tp-text);
         font-size: 1.3rem;
         line-height: 1.4;
@@ -862,7 +927,7 @@
         min-height: 3.6rem;
         padding: 0.7rem 3.6rem 0.7rem 1.2rem;
         border: 1px solid var(--tp-input-border);
-        border-radius: 10px;
+        border-radius: var(--tp-r-md);
         background: var(--tp-elevated) var(--tp-chevron) no-repeat right 1.2rem center / 1.2rem 1.2rem;
         box-shadow: var(--tp-shadow-sm);
     }
@@ -926,7 +991,7 @@
 
     .sweet-alert {
         border: 1px solid var(--tp-border);
-        border-radius: 18px;
+        border-radius: var(--tp-r-md);
         font-family: var(--tp-font-body);
         background-color: var(--tp-elevated);
         box-shadow: var(--tp-shadow-lg), 0 0 0 1px rgba(0, 0, 0, 0.2);
@@ -1059,7 +1124,7 @@
         border: 1px solid var(--tp-border);
         border-radius: var(--tp-r-md);
         box-shadow: var(--tp-shadow-sm);
-        transition: transform 0.35s var(--tp-ease), box-shadow 0.35s var(--tp-ease), border-color 0.35s var(--tp-ease);
+        transition: transform var(--fl-dur-normal) var(--tp-ease), box-shadow var(--fl-dur-normal) var(--tp-ease), border-color var(--fl-dur-normal) var(--tp-ease);
     }
 
     .ca_holder:hover,
@@ -1104,7 +1169,7 @@
 
     .caButton {
         border: 1px solid var(--tp-input-border);
-        border-radius: var(--tp-r-full);
+        border-radius: var(--tp-r-control);
         font-family: var(--tp-font-heading);
         font-weight: 600;
     }
@@ -1127,7 +1192,7 @@
         border-radius: var(--tp-r-full);
         background-color: var(--tp-subtle);
         box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3);
-        transition: background-color 0.35s var(--tp-ease), border-color 0.35s var(--tp-ease), box-shadow 0.35s var(--tp-ease);
+        transition: background-color var(--fl-dur-normal) var(--tp-ease), border-color var(--fl-dur-normal) var(--tp-ease), box-shadow var(--fl-dur-normal) var(--tp-ease);
     }
 
     .switch-button-background:hover {
@@ -1158,7 +1223,7 @@
         border-radius: 50%;
         background: var(--tp-muted);
         box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
-        transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.35s var(--tp-ease), box-shadow 0.35s var(--tp-ease);
+        transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), background var(--fl-dur-normal) var(--tp-ease), box-shadow var(--fl-dur-normal) var(--tp-ease);
     }
 
     .switch-button-button:after {
@@ -1298,7 +1363,7 @@
         margin: 0 0 1.6rem;
         padding: 0.4rem 0 0.8rem;
         border: 1px solid var(--tp-border);
-        border-radius: 18px;
+        border-radius: var(--tp-r-md);
         background-color: var(--tp-elevated);
         box-shadow: var(--tp-shadow-sm);
     }
@@ -1472,7 +1537,7 @@
         font-size: 1.4rem !important;
         background-color: transparent;
         opacity: 1;
-        transition: color 0.2s, background-color 0.2s, transform 0.35s var(--tp-ease);
+        transition: color 0.2s, background-color 0.2s, transform var(--fl-dur-normal) var(--tp-ease);
     }
 
     /* Controls with .tile only appear in tile-management mode; Unraid hides and shows those. */
@@ -1512,7 +1577,7 @@
         color: var(--tp-muted);
         font-size: 1.5rem !important;
         background-color: var(--tp-subtle);
-        transition: color 0.2s, border-color 0.2s, background-color 0.2s, transform 0.35s var(--tp-ease);
+        transition: color 0.2s, border-color 0.2s, background-color 0.2s, transform var(--fl-dur-normal) var(--tp-ease);
     }
 
     table.dashboard .tile-ctrl > span:hover {
@@ -1577,7 +1642,7 @@
         border: 1px solid var(--tp-border);
         border-radius: var(--tp-r-md);
         background-color: var(--tp-subtle);
-        transition: border-color 0.2s, transform 0.35s var(--tp-ease);
+        transition: border-color 0.2s, transform var(--fl-dur-normal) var(--tp-ease);
     }
 
     table.dashboard span.outer.solid:hover {
@@ -1599,7 +1664,7 @@
     }
 
     table.dashboard span.outer.solid img.img {
-        border-radius: 10px;
+        border-radius: var(--tp-r-md);
     }
 
     table.dashboard span.outer.solid .inner > span:first-child {
@@ -1727,7 +1792,7 @@
         text-decoration: none;
         background-color: var(--tp-elevated);
         box-shadow: var(--tp-shadow-sm);
-        transition: transform 0.35s var(--tp-ease), border-color 0.35s var(--tp-ease), box-shadow 0.35s var(--tp-ease);
+        transition: transform var(--fl-dur-normal) var(--tp-ease), border-color var(--fl-dur-normal) var(--tp-ease), box-shadow var(--fl-dur-normal) var(--tp-ease);
     }
 
     .Panel > a:hover,
@@ -1745,10 +1810,10 @@
         place-items: center;
         width: 5.2rem;
         height: 5.2rem;
-        border-radius: 14px;
+        border-radius: var(--tp-r-md);
         color: var(--tp-primary);
         background-color: var(--tp-primary-soft);
-        transition: background 0.35s var(--tp-ease), color 0.35s var(--tp-ease);
+        transition: background var(--fl-dur-normal) var(--tp-ease), color var(--fl-dur-normal) var(--tp-ease);
     }
 
     .Panel > a:hover > span:first-child,
@@ -1969,10 +2034,10 @@
         margin-right: 0.8rem;
         vertical-align: middle;
         border: 1px solid var(--tp-border);
-        border-radius: 999px;
+        border-radius: var(--tp-r-control);
         color: var(--tp-muted);
         background-color: var(--tp-elevated);
-        transition: border-color 0.3s var(--tp-ease), color 0.3s var(--tp-ease);
+        transition: border-color var(--fl-dur-normal) var(--tp-ease), color var(--fl-dur-normal) var(--tp-ease);
     }
 
     /* Rows without a browse link keep the space, so the names stay aligned. */
@@ -1997,12 +2062,12 @@
         height: 2.6rem;
         margin-right: 0.4rem;
         border: 1px solid var(--tp-border);
-        border-radius: 999px;
+        border-radius: var(--tp-r-control);
         color: var(--tp-muted);
         font-size: 1.2rem;
         background-color: var(--tp-elevated);
         cursor: pointer;
-        transition: border-color 0.3s var(--tp-ease), color 0.3s var(--tp-ease);
+        transition: border-color var(--fl-dur-normal) var(--tp-ease), color var(--fl-dur-normal) var(--tp-ease);
     }
 
     table.disk_status tr.tr_last i.control:hover {
@@ -2162,7 +2227,7 @@
         color: var(--tp-muted) !important;
         background-color: var(--tp-elevated);
         text-decoration: none;
-        transition: border-color 0.3s var(--tp-ease), color 0.3s var(--tp-ease), background-color 0.3s var(--tp-ease);
+        transition: border-color var(--fl-dur-normal) var(--tp-ease), color var(--fl-dur-normal) var(--tp-ease), background-color var(--fl-dur-normal) var(--tp-ease);
     }
 
     table:is(.usb_mounts, .samba_mounts, .usb_absent) a.exec:has(> i.fa-remove) {
@@ -2278,7 +2343,7 @@
         margin-bottom: 0;
         padding: 0.8rem 1.4rem;
         border: 1px solid var(--tp-input-border);
-        border-radius: var(--tp-r-full);
+        border-radius: var(--tp-r-control);
         font-size: 1.3rem;
         background: var(--tp-elevated);
     }
@@ -2298,7 +2363,7 @@
     a.info span {
         padding: 0.7rem 1.1rem;
         border: 1px solid var(--tp-border);
-        border-radius: 10px;
+        border-radius: var(--tp-r-md);
         color: var(--tp-text);
         font-size: 1.2rem;
         font-variant: normal;
@@ -2357,10 +2422,10 @@
         margin: 0;
         padding: 0 1.1rem;
         border: 1px solid var(--tp-border);
-        border-radius: 10px;
+        border-radius: var(--tp-r-md);
         background: var(--tp-subtle) !important;
         animation: none !important;
-        transition: transform 0.35s var(--tp-ease), border-color 0.35s var(--tp-ease), box-shadow 0.35s var(--tp-ease);
+        transition: transform var(--fl-dur-normal) var(--tp-ease), border-color var(--fl-dur-normal) var(--tp-ease), box-shadow var(--fl-dur-normal) var(--tp-ease);
     }
 
     #tblDiskLocation .flex-container-layout_h > div:hover {
@@ -2528,10 +2593,10 @@
         gap: 0.5rem;
         padding: 0.3rem 1rem;
         border: 1px solid var(--tp-border);
-        border-radius: var(--tp-r-full);
+        border-radius: var(--tp-r-control);
         color: var(--tp-text);
         text-decoration: none;
-        transition: border-color 0.35s var(--tp-ease), color 0.35s var(--tp-ease);
+        transition: border-color var(--fl-dur-normal) var(--tp-ease), color var(--fl-dur-normal) var(--tp-ease);
     }
 
     #footer a.footer-link:hover,
@@ -2695,11 +2760,11 @@
         margin: 0.8rem 0.6rem 0 0;
         padding: 0.6rem 1.3rem 0.6rem 1.1rem;
         border: 1px solid transparent;
-        border-radius: 999px;
+        border-radius: var(--tp-r-control);
         font-size: 1.15rem;
         line-height: 1;
         vertical-align: middle;
-        transition: background-color 0.25s var(--tp-ease), color 0.25s var(--tp-ease), border-color 0.25s var(--tp-ease), transform 0.25s var(--tp-ease);
+        transition: background-color var(--fl-dur-normal) var(--tp-ease), color var(--fl-dur-normal) var(--tp-ease), border-color var(--fl-dur-normal) var(--tp-ease), transform var(--fl-dur-normal) var(--tp-ease);
     }
 
     #remove_button[style*="inline"],
@@ -2760,7 +2825,7 @@
         min-height: 0;
         margin: 0 0 0 0.6rem;
         padding: 0.5rem 1.3rem;
-        border-radius: 999px;
+        border-radius: var(--tp-r-control);
         font-size: 1.15rem;
         box-shadow: none;
     }
@@ -2822,7 +2887,7 @@
         background-color: transparent;
         cursor: pointer;
         user-select: none;
-        transition: background-color 0.25s var(--tp-ease), border-color 0.25s var(--tp-ease), color 0.25s var(--tp-ease), transform 0.25s var(--tp-ease);
+        transition: background-color var(--fl-dur-normal) var(--tp-ease), border-color var(--fl-dur-normal) var(--tp-ease), color var(--fl-dur-normal) var(--tp-ease), transform var(--fl-dur-normal) var(--tp-ease);
     }
 
     .syslog-controls .label:has(input:checked) > label {
@@ -2848,7 +2913,7 @@
         background: transparent;
         appearance: none;
         cursor: pointer;
-        transition: background-color 0.25s var(--tp-ease), box-shadow 0.25s var(--tp-ease);
+        transition: background-color var(--fl-dur-normal) var(--tp-ease), box-shadow var(--fl-dur-normal) var(--tp-ease);
     }
 
     .syslog-controls .label input[type="checkbox"]:checked {
@@ -2895,7 +2960,7 @@
         z-index: 10011 !important;
         padding: 0;
         border: 1px solid var(--tp-border) !important;
-        border-radius: 18px;
+        border-radius: var(--tp-r-md);
         overflow: hidden;
         font-family: var(--tp-font-body);
         box-shadow: var(--tp-shadow-lg);
@@ -2904,7 +2969,7 @@
     .ui-dialog:not(.ui-dialog-content-full) {
         max-width: min(100rem, calc(100vw - 3.2rem));
         max-height: calc(100vh - 3.2rem);
-        animation: tp-dialog-rise 0.3s var(--tp-ease);
+        animation: tp-dialog-rise var(--fl-dur-normal) var(--tp-ease);
     }
 
     .ui-dialog .ui-dialog-titlebar {
@@ -2937,10 +3002,10 @@
         margin: 0;
         padding: 0;
         border: 1px solid var(--tp-border);
-        border-radius: 999px;
+        border-radius: var(--tp-r-control);
         color: var(--tp-muted);
         background: transparent;
-        transition: color 0.25s var(--tp-ease), border-color 0.25s var(--tp-ease), transform 0.25s var(--tp-ease);
+        transition: color var(--fl-dur-normal) var(--tp-ease), border-color var(--fl-dur-normal) var(--tp-ease), transform var(--fl-dur-normal) var(--tp-ease);
     }
 
     .ui-dialog .ui-dialog-titlebar-close:hover {
@@ -2987,7 +3052,7 @@
         margin: 0;
         padding: 1rem 2rem;
         border: 1px solid var(--tp-input-border);
-        border-radius: 999px;
+        border-radius: var(--tp-r-control);
         color: var(--tp-text);
         font: 600 1.3rem/1 var(--tp-font-heading);
         letter-spacing: 0;
@@ -2995,7 +3060,7 @@
         background: var(--tp-elevated);
         background-size: auto;
         box-shadow: none;
-        transition: transform 0.3s var(--tp-ease), border-color 0.3s var(--tp-ease), color 0.3s var(--tp-ease), box-shadow 0.3s var(--tp-ease);
+        transition: transform var(--fl-dur-normal) var(--tp-ease), border-color var(--fl-dur-normal) var(--tp-ease), color var(--fl-dur-normal) var(--tp-ease), box-shadow var(--fl-dur-normal) var(--tp-ease);
     }
 
     .ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset button:hover {
@@ -3099,7 +3164,7 @@
         margin-top: 0 !important;
         overflow: hidden;
         border: 1px solid var(--tp-border) !important;
-        border-radius: 16px !important;
+        border-radius: var(--tp-r-md) !important;
         background-color: var(--tp-elevated) !important;
         box-shadow: var(--tp-shadow-sm) !important;
     }
@@ -3126,7 +3191,7 @@
 
     unraid-connect-settings [class~="border-muted"][class~="border-2"] [class~="rounded-lg"][class~="border"] {
         border-color: var(--tp-border) !important;
-        border-radius: 12px !important;
+        border-radius: var(--tp-r-md) !important;
         background-color: var(--tp-bg) !important;
     }
 
@@ -3159,7 +3224,7 @@
         width: auto !important;
         min-width: 16rem;
         padding: 1.1rem 2.8rem !important;
-        border-radius: 999px !important;
+        border-radius: var(--tp-r-control) !important;
         font: 600 1.35rem var(--tp-font-heading) !important;
     }
 
@@ -3255,7 +3320,7 @@
         margin: 1.2rem 0 2.2rem;
         padding: 0.4rem;
         border: 1px solid var(--tp-border);
-        border-radius: 14px;
+        border-radius: var(--tp-r-md);
         background: var(--tp-subtle);
         box-sizing: border-box;
     }
@@ -3273,7 +3338,7 @@
         margin: 0;
         padding: 0.8rem 1.6rem;
         border: 1px solid transparent;
-        border-radius: 10px;
+        border-radius: var(--tp-r-md);
         color: var(--tp-muted);
         font: 500 1.3rem/1 var(--tp-font-heading);
         letter-spacing: 0;
@@ -3724,7 +3789,7 @@
         color: var(--tp-muted) !important;
         background-color: var(--tp-elevated);
         box-shadow: var(--tp-shadow-lg);
-        transition: color 0.25s var(--tp-ease), border-color 0.25s var(--tp-ease);
+        transition: color var(--fl-dur-normal) var(--tp-ease), border-color var(--fl-dur-normal) var(--tp-ease);
     }
 
     a:is(.move_to_end, .back_to_top)[style*="inline"],
@@ -3801,7 +3866,7 @@
     [role="tabpanel"]:is([id$="-content-unread"], [id$="-content-archived"]) > [role="button"] {
         padding: 0.5rem 1.2rem;
         border: 1px solid var(--tp-border);
-        border-radius: 999px;
+        border-radius: var(--tp-r-control);
         color: var(--tp-muted);
         font: 600 1.2rem var(--tp-font-heading);
         text-decoration: none;
@@ -3838,7 +3903,7 @@
         padding: 1.4rem 1.8rem !important;
         border: 1px solid color-mix(in srgb, var(--tp-warn-text) 30%, transparent) !important;
         border-left: 4px solid var(--tp-warn-text) !important;
-        border-radius: 12px !important;
+        border-radius: var(--tp-r-md) !important;
         color: var(--tp-text);
         line-height: 1.65;
         background-color: color-mix(in srgb, var(--tp-warn-text) 8%, transparent) !important;
@@ -3851,7 +3916,7 @@
         margin-top: 0.6rem;
         padding: 0.3rem 0.9rem;
         border: 1px solid var(--tp-border);
-        border-radius: 8px;
+        border-radius: var(--tp-r-sm);
         color: var(--tp-muted);
         font: 500 1.2rem ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
         background-color: var(--tp-subtle) !important;
@@ -3863,7 +3928,7 @@
         margin: 1.4rem 0;
         padding: 1.4rem 1.8rem 1.6rem;
         border: 1px solid var(--tp-border);
-        border-radius: 14px;
+        border-radius: var(--tp-r-md);
         background-color: var(--tp-subtle);
     }
 
@@ -3970,7 +4035,7 @@
         text-decoration: none;
         background-color: var(--tp-elevated);
         box-shadow: var(--tp-shadow-sm);
-        transition: border-color 0.3s var(--tp-ease), box-shadow 0.3s var(--tp-ease), transform 0.3s var(--tp-ease);
+        transition: border-color var(--fl-dur-normal) var(--tp-ease), box-shadow var(--fl-dur-normal) var(--tp-ease), transform var(--fl-dur-normal) var(--tp-ease);
     }
 
     .vmtemplate > a:hover,
@@ -4037,7 +4102,7 @@
         border-radius: 999px;
         color: var(--tp-muted);
         cursor: pointer;
-        transition: color 0.2s var(--tp-ease), background-color 0.2s var(--tp-ease), box-shadow 0.2s var(--tp-ease);
+        transition: color var(--fl-dur-normal) var(--tp-ease), background-color var(--fl-dur-normal) var(--tp-ease), box-shadow var(--fl-dur-normal) var(--tp-ease);
     }
 
     .cpu-grid .cpu-row:hover {
@@ -4208,7 +4273,7 @@
             margin: 0 auto;
             padding: 0.5rem 1.2rem 0.5rem 0.5rem;
             border: 1px solid var(--tp-border);
-            border-radius: var(--tp-r-full);
+            border-radius: var(--tp-r-control);
             background: color-mix(in srgb, var(--tp-bg) 80%, transparent);
             box-shadow: var(--tp-shadow-sm);
             backdrop-filter: blur(12px);
@@ -4235,7 +4300,7 @@
         position: relative;
         padding: 1.4rem 1.8rem 1.4rem 4.8rem;
         border: 1px solid color-mix(in srgb, var(--tp-primary) 25%, transparent);
-        border-radius: 12px;
+        border-radius: var(--tp-r-md);
         color: color-mix(in srgb, var(--tp-text) 82%, var(--tp-muted));
         font-size: 1.3rem;
         line-height: 1.65;
@@ -4282,7 +4347,7 @@
     blockquote:where(:not(.unapi *)) :is(code, kbd) {
         padding: 0.1rem 0.6rem;
         border: 1px solid var(--tp-border);
-        border-radius: 6px;
+        border-radius: var(--tp-r-sm);
         color: var(--tp-text);
         font: 500 0.92em ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
         background: var(--tp-subtle);
@@ -4295,7 +4360,7 @@
         margin: 1.2rem 0;
         padding: 1.2rem 1.8rem 1.2rem 4.8rem !important;
         border: 1px solid color-mix(in srgb, var(--tp-warn-text) 35%, transparent);
-        border-radius: 12px;
+        border-radius: var(--tp-r-md);
         color: var(--tp-text);
         font-size: 1.35rem;
         line-height: 1.65 !important;
@@ -4327,7 +4392,7 @@
         box-sizing: border-box;
         padding: 1.4rem 1.8rem;
         border: 1px solid var(--tp-border);
-        border-radius: 12px;
+        border-radius: var(--tp-r-md);
         color: var(--tp-text);
         font: 1.2rem/1.6 ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
         background: var(--tp-subtle);
@@ -4392,7 +4457,7 @@
     .tp-tool-text p :is(code, kbd) {
         padding: 0.1rem 0.6rem;
         border: 1px solid var(--tp-border);
-        border-radius: 6px;
+        border-radius: var(--tp-r-sm);
         color: var(--tp-text);
         font: 500 0.92em ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
         background: var(--tp-subtle);
@@ -4403,7 +4468,7 @@
         margin: 1.2rem 0;
         padding: 1.2rem 1.6rem 1.2rem 4.6rem;
         border: 1px solid color-mix(in srgb, var(--tp-primary) 28%, transparent);
-        border-radius: 12px;
+        border-radius: var(--tp-r-md);
         color: var(--tp-text);
         background: color-mix(in srgb, var(--tp-primary) 7%, var(--tp-elevated));
     }
@@ -4526,7 +4591,7 @@
         padding: 1.6rem 2rem;
         overflow-x: auto;
         border: 1px solid var(--tp-border);
-        border-radius: 12px;
+        border-radius: var(--tp-r-md);
         color: var(--tp-text);
         font: 1.25rem/1.65 ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
         background: var(--tp-subtle);
@@ -4565,7 +4630,7 @@
         place-items: center;
         width: 3.4rem;
         height: 3.4rem;
-        border-radius: 10px;
+        border-radius: var(--tp-r-md);
         color: var(--tp-primary);
         font-size: 1.5rem;
         background: var(--tp-primary-soft);
@@ -4595,7 +4660,7 @@
         padding: 0.6rem;
         overflow-y: auto;
         border: 1px solid var(--tp-border);
-        border-radius: 16px;
+        border-radius: var(--tp-r-md);
         color: var(--tp-text);
         font: 400 1.35rem/1.3 var(--tp-font-body);
         background: var(--tp-elevated);
@@ -4618,7 +4683,7 @@
     .awesomplete > ul > li {
         position: relative;
         padding: 0.8rem 1.2rem 0.8rem 3.6rem;
-        border-radius: 10px;
+        border-radius: var(--tp-r-md);
         color: var(--tp-text);
         transition: background-color 0.15s, color 0.15s;
     }
@@ -4747,7 +4812,7 @@
         background: color-mix(in srgb, var(--tp-badge) 12%, var(--tp-elevated)) !important;
         clip-path: none !important;
         pointer-events: none;
-        transition: transform 0.35s var(--tp-ease);
+        transition: transform var(--fl-dur-normal) var(--tp-ease);
     }
 
     div:has(> .ca_holder:hover) > [class*=CardBackground]:not(.favCardBackground) {
@@ -4862,7 +4927,7 @@
         padding: 3.2rem 4rem 3.6rem;
         overflow-y: auto;
         border: 1px solid var(--tp-border);
-        border-radius: 20px;
+        border-radius: var(--tp-r-md);
         color: var(--tp-text);
         font-size: 1.35rem;
         font-weight: 400 !important;
@@ -4870,7 +4935,7 @@
         background: var(--tp-elevated);
         box-shadow: var(--tp-shadow-lg);
         scrollbar-width: thin;
-        animation: tp-ca-modal 0.35s var(--tp-ease);
+        animation: tp-ca-modal var(--fl-dur-normal) var(--tp-ease);
     }
 
     @keyframes tp-ca-modal {
@@ -5046,7 +5111,7 @@
         place-items: center;
         width: 5.2rem;
         height: 5.2rem;
-        border-radius: 16px;
+        border-radius: var(--tp-r-md);
         color: #ffffff;
         font-size: 2.4rem !important;
         background: var(--tp-gradient);
@@ -5144,7 +5209,7 @@
         margin: 0 !important;
         padding: 0 0.4rem;
         box-sizing: border-box;
-        border-radius: var(--tp-r-full);
+        border-radius: var(--tp-r-control);
         color: var(--tp-text) !important;
         font: 600 1.25rem/1 var(--tp-font-heading);
         font-variant-numeric: tabular-nums;
@@ -5569,7 +5634,7 @@
             gap: 0.5rem;
             padding: 0.3rem 0.9rem;
             border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 999px;
+            border-radius: var(--tp-r-control);
             color: var(--tp-header-muted);
             font: 600 1.15rem/1.2 var(--tp-font-heading);
             text-decoration: none;
@@ -5734,7 +5799,7 @@
             gap: 0.8rem;
             height: 3.6rem;
             padding: 0 1.1rem;
-            border-radius: 999px;
+            border-radius: var(--tp-r-control);
             color: var(--tp-header-muted);
             font: 500 1.35rem/1 var(--tp-font-heading);
             white-space: nowrap;
@@ -5805,7 +5870,7 @@
             height: 3.3rem;
             padding: 0;
             border: 1px solid rgba(255, 255, 255, 0.06);
-            border-radius: 10px;
+            border-radius: var(--tp-r-md);
             color: var(--tp-header-muted);
             font-size: 1.5rem;
             line-height: 1;

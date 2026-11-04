@@ -6,7 +6,7 @@
     margin: 0 0 2rem;
     overflow: hidden;
     border: 1px solid var(--tp-border, var(--table-border-color));
-    border-radius: 18px;
+    border-radius: var(--tp-r-md, 8px);
     background-color: var(--tp-elevated, var(--table-background-color));
     box-shadow: var(--tp-shadow-sm, none);
 }
@@ -141,7 +141,7 @@
     gap: 0.2rem;
     padding: 1rem 1.2rem;
     border: 1px solid rgba(255, 255, 255, 0.12);
-    border-radius: 12px;
+    border-radius: var(--tp-r-md, 8px);
     background-color: rgba(255, 255, 255, 0.05);
 }
 
@@ -329,7 +329,7 @@
     margin-right: 0.6rem;
     padding: 0 1.1rem 0 0.4rem;
     border: 1px solid rgba(255, 255, 255, 0.06);
-    border-radius: 10px;
+    border-radius: var(--tp-r-md, 8px);
     color: var(--tp-header-text, var(--text-color));
     text-decoration: none;
     background: rgba(255, 255, 255, 0.04);
@@ -378,7 +378,7 @@
     place-items: center;
     width: 2.5rem;
     height: 2.5rem;
-    border-radius: 7px;
+    border-radius: var(--tp-r-sm, 4px);
     color: var(--tp-usage-tone);
     font-size: 1.4rem;
     background: color-mix(in srgb, var(--tp-usage-tone) 16%, transparent);
@@ -507,7 +507,7 @@
     margin: 0;
     padding: 0.6rem 1.2rem;
     border: 1px solid transparent;
-    border-radius: 999px;
+    border-radius: var(--tp-r-control, 4px);
     color: var(--tp-muted, var(--alt-text-color));
     font: 500 1.2rem var(--tp-font-heading, inherit);
     letter-spacing: 0;
@@ -557,7 +557,7 @@
     gap: 0.2rem;
     padding: 0.3rem;
     border: 1px solid var(--tp-border, var(--border-color));
-    border-radius: 999px;
+    border-radius: var(--tp-r-control, 4px);
     background-color: var(--tp-subtle, var(--mild-background-color));
 }
 
@@ -708,7 +708,7 @@
 #docker_containers.tp-compact td.ct-name img.img {
     width: 3.6rem;
     height: 3.6rem;
-    border-radius: 12px;
+    border-radius: var(--tp-r-md, 8px);
 }
 
 #docker_containers.tp-compact td.ct-name .inner {
@@ -950,7 +950,7 @@ table.dashboard .folder-showcase:not(:empty) {
     gap: 0.6rem;
     padding: 0.8rem;
     border: 1px solid color-mix(in srgb, var(--tp-primary, var(--brand-orange)) 30%, transparent);
-    border-radius: 12px;
+    border-radius: var(--tp-r-md, 8px);
     background-color: color-mix(in srgb, var(--tp-primary, var(--brand-orange)) 5%, transparent);
 }
 
@@ -974,7 +974,7 @@ table.dashboard span.outer.solid.tp-group-chip:focus-visible {
     place-items: center;
     width: 3.6rem;
     height: 3.6rem;
-    border-radius: 10px;
+    border-radius: var(--tp-r-md, 8px);
     color: var(--tp-primary, var(--brand-orange));
     font-size: 1.7rem;
     background: color-mix(in srgb, var(--tp-primary, var(--brand-orange)) 16%, transparent);
@@ -1019,7 +1019,7 @@ table.dashboard .tp-group-panel {
     gap: 0.6rem;
     padding: 0.8rem;
     border: 1px solid color-mix(in srgb, var(--tp-primary, var(--brand-orange)) 30%, transparent);
-    border-radius: 12px;
+    border-radius: var(--tp-r-md, 8px);
     background-color: color-mix(in srgb, var(--tp-primary, var(--brand-orange)) 5%, transparent);
 }
 
@@ -1033,14 +1033,14 @@ table.dashboard span.outer.solid.tp-group-chip:not(.tp-collapsed),
 table.dashboard .folder-showcase-outer[expanded="true"] > span.outer.solid {
     grid-column: 1 / -1;
     border-bottom-color: transparent;
-    border-radius: 12px 12px 0 0;
+    border-radius: var(--tp-r-md, 8px) var(--tp-r-md, 8px) 0 0;
 }
 
 table.dashboard span.outer.solid.tp-group-chip:not(.tp-collapsed) + .tp-group-panel,
 table.dashboard .folder-showcase-outer[expanded="true"] > .folder-showcase {
     margin-top: -0.6rem;
     border-top: 0;
-    border-radius: 0 0 12px 12px;
+    border-radius: 0 0 var(--tp-r-md, 8px) var(--tp-r-md, 8px);
 }
 
 table.dashboard span.outer.solid.tp-group-chip:not(.tp-collapsed):hover,
@@ -1234,7 +1234,7 @@ table.dashboard span.outer.solid .inner {
     display: block;
     width: 100%;
     height: 100%;
-    border-radius: 6px;
+    border-radius: var(--tp-r-sm, 4px);
     object-fit: contain;
 }
 
@@ -1280,7 +1280,7 @@ table.dashboard span.outer.solid .inner {
 }
 
 .tp-app-icon[role="button"]:focus-visible {
-    border-radius: 6px;
+    border-radius: var(--tp-r-sm, 4px);
     outline: 2px solid var(--tp-primary, var(--link-text-color));
     outline-offset: 2px;
 }
@@ -1288,7 +1288,7 @@ table.dashboard span.outer.solid .inner {
 .tp-app-more {
     flex: none;
     padding: 0.1rem 0.5rem;
-    border-radius: 999px;
+    border-radius: var(--tp-r-control, 4px);
     color: var(--tp-muted, var(--alt-text-color));
     font: 600 1rem/1.6 var(--tp-font-heading, inherit);
     background: var(--tp-subtle, rgba(255, 255, 255, 0.06));
@@ -1408,7 +1408,7 @@ nav.tabs > .tp-segment.tp-title-switch {
     width: 2.4rem;
     height: 2.8rem;
     margin-top: -1.4rem;
-    border-radius: 6px;
+    border-radius: var(--tp-r-sm, 4px);
     color: var(--tp-muted, var(--alt-text-color));
     font-size: 1.2rem;
     cursor: grab;
@@ -1492,7 +1492,7 @@ nav.tabs > .tp-segment.tp-title-switch {
     width: min(44rem, 100%);
     padding: 2.6rem 2.6rem 2.2rem;
     border: 1px solid var(--tp-border, var(--border-color));
-    border-radius: 18px;
+    border-radius: var(--tp-r-md, 8px);
     color: var(--text-color);
     background-color: var(--tp-elevated, var(--background-color));
     box-shadow: var(--tp-shadow-lg, 0 24px 56px -22px rgba(0, 0, 0, 0.6));
@@ -1558,7 +1558,7 @@ nav.tabs > .tp-segment.tp-title-switch {
     margin: 0;
     padding: 0.9rem 1.8rem;
     border: 1px solid var(--tp-input-border, var(--border-color));
-    border-radius: 999px;
+    border-radius: var(--tp-r-control, 4px);
     color: var(--text-color);
     font: 600 1.3rem var(--tp-font-heading, inherit);
     letter-spacing: 0;
@@ -1641,7 +1641,7 @@ nav.tabs > .tp-segment.tp-title-switch {
     gap: 1.2rem;
     padding: 1.4rem 1rem 1.6rem;
     border: 1px solid var(--tp-border, var(--border-color));
-    border-radius: 16px;
+    border-radius: var(--tp-r-md, 8px);
     background-color: var(--tp-subtle, transparent);
     transition: transform 0.3s;
 }
@@ -1718,7 +1718,7 @@ nav.tabs > .tp-segment.tp-title-switch {
 .tp-enhance table.dashboard .tile-system-memory-labels > div {
     padding: 1.2rem 1.4rem;
     border: 1px solid var(--tp-border, var(--border-color));
-    border-radius: 14px;
+    border-radius: var(--tp-r-md, 8px);
     line-height: 1.9;
 }
 
@@ -2026,7 +2026,7 @@ table.dashboard tbody.tp-gpu > tr[class*="gpu-active-apps"] > td > span.gpu-img-
 table.dashboard tbody.tp-gpu > tr[class*="gpu-active-apps"] img.gpu-image {
     width: 2.6rem;
     height: 2.6rem;
-    border-radius: 8px;
+    border-radius: var(--tp-r-sm, 4px);
     object-fit: contain;
 }
 
@@ -2049,7 +2049,7 @@ table.dashboard tbody.tp-gpu > tr[class*="gpu-active-apps"] img.gpu-image {
     min-width: 0;
     padding: 0.8rem 0.9rem;
     border: 1px solid var(--tp-border, var(--border-color));
-    border-radius: 12px;
+    border-radius: var(--tp-r-md, 8px);
     background-color: var(--tp-subtle, var(--mild-background-color));
 }
 
@@ -2126,7 +2126,7 @@ table.dashboard tbody.tp-gpu > tr[class*="gpu-active-apps"] img.gpu-image {
     padding: 1rem 9rem 1rem 4.4rem;
     color: var(--text-color);
     border: 1px solid var(--tp-input-border, var(--input-border-color));
-    border-radius: 999px;
+    border-radius: var(--tp-r-control, 4px);
     font-size: 1.4rem;
     background-color: var(--tp-elevated, var(--background-color));
     box-shadow: var(--tp-shadow-sm, none);
@@ -2194,7 +2194,7 @@ table.dashboard tbody.tp-gpu > tr[class*="gpu-active-apps"] img.gpu-image {
     margin: 0;
     padding: 0 2rem;
     border: 0;
-    border-radius: 999px;
+    border-radius: var(--tp-r-control, 4px);
     color: var(--tp-primary-text, #ffffff);
     font: 600 1.35rem var(--tp-font-heading, inherit);
     letter-spacing: 0;
@@ -2420,7 +2420,7 @@ form.tp-users-form {
     margin: 0;
     padding: 0;
     border: 0;
-    border-radius: 999px;
+    border-radius: var(--tp-r-control, 4px);
     color: var(--tp-muted, var(--alt-text-color));
     font-size: 1.4rem;
     background: transparent;
@@ -2459,7 +2459,7 @@ form.tp-users-form {
     margin: 1.2rem 0 0;
     padding: 1.6rem 1.8rem;
     border: 1px dashed var(--tp-input-border, var(--border-color));
-    border-radius: 14px;
+    border-radius: var(--tp-r-md, 8px);
     color: var(--tp-muted, var(--alt-text-color));
     font-size: 1.25rem;
     text-align: left;
@@ -2506,7 +2506,7 @@ select.tp-select-open {
     overflow-y: auto;
     overscroll-behavior: contain;
     border: 1px solid var(--tp-border, var(--border-color));
-    border-radius: 14px;
+    border-radius: var(--tp-r-md, 8px);
     color: var(--tp-text, var(--text-color));
     font: 400 1.3rem/1.35 var(--tp-font-body, inherit);
     background-color: var(--tp-elevated, var(--background-color));
@@ -2522,7 +2522,7 @@ select.tp-select-open {
 .tp-select-option {
     position: relative;
     padding: 0.85rem 3.4rem 0.85rem 1.2rem;
-    border-radius: 9px;
+    border-radius: var(--tp-r-sm, 4px);
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -2603,7 +2603,7 @@ select.tp-select-open {
     width: 6.4rem;
     height: 6.4rem;
     border: 1px solid var(--tp-border, var(--border-color));
-    border-radius: 18px;
+    border-radius: var(--tp-r-md, 8px);
     background-color: var(--tp-subtle, transparent);
 }
 
@@ -2612,7 +2612,7 @@ select.tp-select-open {
     width: 4.4rem !important;
     height: 4.4rem !important;
     margin: 0 !important;
-    border-radius: 10px;
+    border-radius: var(--tp-r-md, 8px);
     object-fit: contain;
 }
 
@@ -2697,7 +2697,7 @@ select.tp-select-open {
     margin: 0;
     padding: 0;
     border: 1px solid var(--tp-border, var(--border-color));
-    border-radius: 999px;
+    border-radius: var(--tp-r-control, 4px);
     color: var(--tp-muted, var(--alt-text-color));
     font-size: 1.5rem;
     background: transparent;
@@ -2753,7 +2753,7 @@ select.tp-select-open {
     margin: 0;
     padding: 0.9rem 1.4rem;
     border: 1px solid var(--tp-border, var(--border-color));
-    border-radius: 12px;
+    border-radius: var(--tp-r-md, 8px);
     color: var(--tp-text, var(--text-color));
     font: 600 1.3rem/1.2 var(--tp-font-heading, inherit);
     letter-spacing: 0;
@@ -2862,7 +2862,7 @@ select.tp-select-open {
     padding: 0;
     vertical-align: middle;
     border: 1px solid var(--tp-border, var(--border-color));
-    border-radius: 999px;
+    border-radius: var(--tp-r-control, 4px);
     color: var(--tp-muted, var(--alt-text-color));
     font-size: 1.1rem;
     background: var(--tp-elevated, transparent);
@@ -2956,7 +2956,7 @@ select.tp-select-open {
     min-width: 0;
     padding: 2rem;
     border: 1px solid var(--tp-border, var(--border-color));
-    border-radius: 16px;
+    border-radius: var(--tp-r-md, 8px);
     background-color: var(--tp-elevated, var(--background-color));
     box-shadow: var(--tp-shadow-sm, none);
     transition: border-color 0.3s, transform 0.3s;
@@ -3001,7 +3001,7 @@ select.tp-select-open {
     place-items: center;
     width: 3.8rem;
     height: 3.8rem;
-    border-radius: 12px;
+    border-radius: var(--tp-r-md, 8px);
     color: var(--tp-primary, var(--brand-orange));
     font-size: 1.6rem;
     background-color: var(--tp-primary-soft, transparent);
@@ -3272,7 +3272,7 @@ select.tp-select-open {
     gap: 0.4rem;
     padding: 1.2rem 1.4rem;
     border: 1px solid var(--tp-border, var(--border-color));
-    border-radius: 12px;
+    border-radius: var(--tp-r-md, 8px);
     background-color: var(--tp-subtle, transparent);
 }
 
@@ -3343,7 +3343,7 @@ select.tp-select-open {
     margin: 0 0 0 1.4rem;
     padding: 0.45rem 1.2rem;
     border: 0;
-    border-radius: 999px;
+    border-radius: var(--tp-r-control, 4px);
     color: var(--tp-primary-text, #ffffff);
     font: 600 1.1rem var(--tp-font-heading, inherit);
     letter-spacing: 0;
@@ -3374,7 +3374,7 @@ select.tp-select-open {
     margin: 0;
     padding: 0;
     border: 1px solid var(--tp-border, var(--border-color));
-    border-radius: 999px;
+    border-radius: var(--tp-r-control, 4px);
     color: var(--tp-muted, var(--alt-text-color));
     font-size: 1.1rem;
     background: var(--tp-elevated, transparent);
@@ -3490,7 +3490,7 @@ select.tp-select-open {
     margin: 1.2rem 0 2rem;
     overflow: hidden;
     border: 1px solid var(--tp-border, var(--border-color));
-    border-radius: 16px;
+    border-radius: var(--tp-r-md, 8px);
     background-color: var(--tp-elevated, var(--background-color));
     box-shadow: var(--tp-shadow-sm, none);
 }
@@ -3510,7 +3510,7 @@ select.tp-select-open {
     min-height: 3.8rem;
     margin: 0;
     padding: 0.8rem 1.4rem 0.8rem 3.8rem;
-    border-radius: 999px;
+    border-radius: var(--tp-r-control, 4px);
     background: var(--tp-subtle, transparent) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238b93a5' stroke-width='2.2' stroke-linecap='round'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cpath d='M20 20l-3.5-3.5'/%3E%3C/svg%3E") 1.3rem center / 1.5rem no-repeat;
 }
 
@@ -3615,7 +3615,7 @@ select.tp-select-open {
 .tp-alloc-port {
     padding: 0.2rem 0.8rem;
     border: 1px solid var(--tp-border, var(--border-color));
-    border-radius: 7px;
+    border-radius: var(--tp-r-sm, 4px);
     color: var(--tp-text, var(--text-color));
     font-size: 1.2rem;
     font-variant-numeric: tabular-nums;
@@ -3773,7 +3773,7 @@ select.tp-select-open {
     .tp-modal.tp-ct-modal {
         width: 100%;
         max-height: 88vh;
-        border-radius: 22px 22px 0 0;
+        border-radius: var(--tp-r-md, 8px) var(--tp-r-md, 8px) 0 0;
         padding: 2rem 1.6rem calc(2rem + env(safe-area-inset-bottom, 0px));
     }
 
@@ -3892,7 +3892,7 @@ tbody.tp-cpu-tile > tr.tp-core > td {
     height: 100%;
     padding: 0.8rem 1rem !important;
     border: 1px solid var(--tp-border);
-    border-radius: 10px;
+    border-radius: var(--tp-r-md, 8px);
     background: var(--tp-subtle);
 }
 
